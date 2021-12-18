@@ -1,7 +1,15 @@
 // http://127.0.0.1:5500/index.html
 
+import {sc, cl, debug} from "./logging.js"
+/*
+let debug = false;
 
-
+function cl(msg,individual=false){
+  if (individual || debug) {
+    console.log(msg)
+  }
+}
+*/
 
 import Deck from "./deck.js"
 
@@ -49,7 +57,7 @@ document.getElementById("myBtn").addEventListener("click", function() {
 document.getElementById("playerDeck").addEventListener("click", function() {
 // this is whole document click and move
 //  document.addEventListener("click", () => {
-  console.log("event click <---");
+  cl("event click <---");
   if (stop  ) {
     return
   }
@@ -67,7 +75,7 @@ document.getElementById("playerDeck").addEventListener("click", function() {
 
 startGame()
 function startGame() {
-  console.log("startGame() <------------------------");
+  cl("startGame() <------------------------");
   const deck = new Deck() // no parameter do and hence it would be fresh
   deck.shuffle()
 
@@ -82,7 +90,7 @@ function startGame() {
 }
 
 function cleanBeforeRound() {
-  console.log("cleanBeforeRound() <---");
+  cl("cleanBeforeRound() <---");
   inRound = false
   computerCardSlot.innerHTML = ""
   playerCardSlot.innerHTML = ""
@@ -99,7 +107,7 @@ function cleanBeforeRound() {
 
 function flipCards() {
   rounds++; 
-  console.log("rounds "+ rounds + " flipCards() <---");
+  cl("rounds "+ rounds + " flipCards() <---");
   inRound = true
 
   const playerCard = playerDeck.pop() // #pragma why const ??? and whole things not sure
@@ -140,7 +148,7 @@ function flipCards() {
 }
 
 function updateDeckCount() {
-  console.log("updateDeckCount() <---");
+  cl("updateDeckCount() <---");
   computerDeckElement.innerText = computerDeck.numberOfCards
   playerDeckElement.innerText = playerDeck.numberOfCards
 }
@@ -155,6 +163,6 @@ function isRoundWinner(cardOne, cardTwo, bias) {
 }
 
 function isGameOver(deck) {
-  console.log("isGameOver(deck) <---");
+  cl("isGameOver(deck) <---"); // ,true);
   return deck.numberOfCards === 0 // when one side is 0
 }
