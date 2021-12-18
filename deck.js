@@ -79,7 +79,7 @@ class Card {
 }
 
 function freshDeck() {
-  console.log("freshDeck() <===---");
+  console.log("freshDeck() <===---"); // not calling this why?
   let flatSuit = SUITS.flatMap(suit => {   // function call 3 final and compress
     return VALUES.map(value => {   // function call 2
       return new Card(suit, value) // function call 1; oo card
