@@ -25,6 +25,7 @@ const text = document.querySelector(".text")
 let playerDeck, computerDeck, inRound, stop
 
 document.addEventListener("click", () => {
+  console.log("event click <---");
   if (stop) {
     startGame()
     return
@@ -39,7 +40,8 @@ document.addEventListener("click", () => {
 
 startGame()
 function startGame() {
-  const deck = new Deck()
+  console.log("startGame() <---");
+  const deck = new Deck() // no parameter do and hence it would be fresh
   deck.shuffle()
 
   const deckMidpoint = Math.ceil(deck.numberOfCards / 2)
@@ -52,6 +54,7 @@ function startGame() {
 }
 
 function cleanBeforeRound() {
+  console.log("cleanBeforeRound() <---");
   inRound = false
   computerCardSlot.innerHTML = ""
   playerCardSlot.innerHTML = ""
@@ -61,6 +64,7 @@ function cleanBeforeRound() {
 }
 
 function flipCards() {
+  console.log("flipCards() <---");
   inRound = true
 
   const playerCard = playerDeck.pop()
@@ -95,14 +99,17 @@ function flipCards() {
 }
 
 function updateDeckCount() {
+  console.log("updateDeckCount() <---");
   computerDeckElement.innerText = computerDeck.numberOfCards
   playerDeckElement.innerText = playerDeck.numberOfCards
 }
 
 function isRoundWinner(cardOne, cardTwo) {
+  console.log("isRoundWinner(cardOne, cardTwo) <---");
   return CARD_VALUE_MAP[cardOne.value] > CARD_VALUE_MAP[cardTwo.value]
 }
 
 function isGameOver(deck) {
+  console.log("isGameOver(deck) <---");
   return deck.numberOfCards === 0
 }
