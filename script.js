@@ -27,15 +27,35 @@ const computerDeckElement = document.querySelector(".computer-deck")
 const playerDeckElement = document.querySelector(".player-deck")
 const text = document.querySelector(".text")
 
-let playerDeck, computerDeck, inRound, stop
-const bias = 10
+let playerDeck, computerDeck;
+let inRound = true; 
+let stop = true; 
+let newGame = false;
+let rounds = 0
 
-document.addEventListener("click", () => {
+const bias = 5, maxRounds = 10
+
+// On mouse-over, execute myFunction # pragma ... not working ???
+export function myFunction() {
+  document.getElementById("myCheck").click(); // Click on the checkbox
+  console.log("################ mouse over button ##################")
+}
+
+document.getElementById("myBtn").addEventListener("click", function() {
+  document.getElementById("demo").innerHTML = "Click Blue Card!";
+  stop = false;
+  startGame()})
+
+document.getElementById("playerDeck").addEventListener("click", function() {
+// this is whole document click and move
+//  document.addEventListener("click", () => {
   console.log("event click <---");
-  if (stop) {
-    startGame() // only start when new web page and got 52
-                // normal save or exist page refresh not here got 26?? 
+  if (stop  ) {
     return
+  }
+
+  if (rounds >= 0) {
+    document.getElementById("demo").innerHTML = "";
   }
 
   if (inRound) {
@@ -53,7 +73,8 @@ function startGame() {
 
   const deckMidpoint = Math.ceil(deck.numberOfCards / 2)
   playerDeck = new Deck(deck.cards.slice(0, deckMidpoint))  // 26 here
-  computerDeck = new Deck(deck.cards.slice(deckMidpoint, deck.numberOfCards))
+  computerDeck = new Deck(deck.cards.slice(deckMidpoint, deck.numberOfCards)) // 26 here
+  rounds = 0; 
   inRound = false
   stop = false
 
@@ -70,38 +91,51 @@ function cleanBeforeRound() {
   updateDeckCount()
 }
 
+// https://stackoverflow.com/questions/2379197/how-to-mark-logical-sections-of-code-in-java-comments
+// #pragma mark -
+// #pragma mark Section name here (for Xcode and Objective C)
+// region Desc
+// endregion 
+
 function flipCards() {
-  console.log("flipCards() <---");
+  rounds++; 
+  console.log("rounds "+ rounds + " flipCards() <---");
   inRound = true
 
-  const playerCard = playerDeck.pop()
-  const computerCard = computerDeck.pop()
+  const playerCard = playerDeck.pop() // #pragma why const ??? and whole things not sure
+  const computerCard = computerDeck.pop() // #pragma ??
 
-  playerCardSlot.appendChild(playerCard.getHTML())
-  computerCardSlot.appendChild(computerCard.getHTML())
+  playerCardSlot.appendChild(playerCard.getHTML()) // #pragma ??
+  computerCardSlot.appendChild(computerCard.getHTML()) // #pragma ??
 
   updateDeckCount()
 
   if (isRoundWinner(playerCard, computerCard, bias)) {
-    text.innerText = "Win with bias:" + bias
+    text.innerText = "Win round "+ rounds + "\n with bias:" + bias
     playerDeck.push(playerCard)
     playerDeck.push(computerCard)
   } else if (isRoundWinner(computerCard, playerCard, (- bias))) {
-    text.innerText = "Lose with bias:" + bias
+    text.innerText = "Lose round "+ rounds + "\n with bias:" + bias
     computerDeck.push(playerCard)
     computerDeck.push(computerCard)
   } else { // note the draw
-    text.innerText = "Draw with bias:" + bias // why K draw with 5 + 1
+    text.innerText = "Draw round "+ rounds + "\n with bias:" + bias // why K draw with 5 + 1
     playerDeck.push(playerCard)
     computerDeck.push(computerCard)
   }
 
   if (isGameOver(playerDeck)) {
-    text.innerText = "You Lose!!"
+    text.innerText = "You Lose the Game !!"
     stop = true
+    rounds = 0
   } else if (isGameOver(computerDeck)) {
-    text.innerText = "You Win!!"
+    text.innerText = "You Win the Game !!"
     stop = true
+    rounds = 0
+  } else if (rounds >= maxRounds) {
+    text.innerText = "Max rounds "+rounds+"; Game Draw!!"
+    stop = true
+    rounds = 0
   }
 }
 

@@ -78,3 +78,15 @@ body {
   right: .5rem;
   transform: rotate(180deg);
 }
+
+.myBTN {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+}
