@@ -9,7 +9,7 @@ body {
   grid-template-rows: 7rem 2rem 7rem;
   gap: .5rem;
   cursor: pointer;
-  justify-content: center;
+  justify-content: left; /* center */
   padding-top: 1rem;
 }
 
@@ -18,8 +18,8 @@ body {
   width: 100%;
   border: 1px solid black;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left; /* center */
+  align-items: left; /* center */
   font-size: 3rem;
   border-radius: .5rem;
   color: white;
@@ -37,8 +37,8 @@ body {
 .text {
   grid-column: span 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left; /* center */
+  align-items: left; /* center */
 }
 
 .card {
@@ -48,8 +48,8 @@ body {
   border: 1px solid black;
   border-radius: .5rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* left; /* center */
+  align-items: center; /* left; /* center */
   font-size: 4rem;
 }
 
@@ -86,7 +86,7 @@ body {
   border: 1px solid black;
   border-radius: .5rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left; /* center */
+  align-items: left; /* center */
   font-size: 4rem;
 }
