@@ -1,0 +1,258 @@
+<!doctype html>
+
+<!-- frontend-engineering/engineers/javascript/jswindows/intro.html -
+Introduction to the <i>JSWindows</i> (a JavaScript Inheritance Demo) system
+Copyright 2013, Martin Rinehart -->
+
+<html>
+
+<head>
+
+    <title>JSWindows Introduction</title>
+
+    <meta name="keywords" content="JavaScript Windowing System, Introduction to <i>JSWindows</i> (a JavaScript Inheritance Demo), documentation for <i>JSWindows</i>">
+    <meta name="description" content=
+            "Documentation for frontend engineers wishing to use the <i>JSWindows</i> (a JavaScript Inheritance Demo) system.">
+    <meta name="author" content="Martin Rinehart">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link
+        rel='stylesheet'
+        type='text/css'
+        href='../../../../../../support/css/mr.css'
+    >
+
+    <link
+        rel='shortcut icon'
+        href='http://www.MartinRinehart.com/favicon.ico'
+    >
+
+    <style type='text/CSS'>
+
+    </style>
+
+</head>
+
+<body>
+
+<div id='content'>
+
+<br clear='left'>
+
+<h1> <i>JSWindows</i> (a JavaScript Inheritance Demo) Documentation </h1>
+<p id='copy'> &copy; 2013, Martin Rinehart</p>
+
+<div class='columnable'>
+
+<h3>Overview</h3>
+
+<p>The <i>JSWindows</i> (a JavaScript Inheritance Demo) system provides a windowing frontend (such as KDE, Gnome, MS Windows, OSX) for applications running in browsers. The design goal is to make life simple for the frontend engineer who wishes to add a <i>JSWindows</i> application to a website, or to create an app that can be loaded into a <i>JSWindows</i> website.</p>
+
+<p>The user functionality should be immediately obvious to anyone familiar with a multi-windowing system. Actions such as moving, reshaping, maximizing, minimizing and closing applications should be "intuitive" (you've done them before).</p>
+
+<p>A secondary goal has been to make the styling of such an app so simple that no designer is ever content to use the default skin. While we want all <i>JSWindows</i> apps to present a consistent, no-learning-curve usability, we want <i>JSWindows</i> apps to all look unique.</p>
+
+<h3>Creating a <i>JSWindows</i>-Capable App</h3>
+
+<h4>The Basics</h4>
+
+<p>Create a background using your favorite techniques. At the end of the <code>&lt;body></code> load the <i>JSWindows</i> script(s). You get a default window the size of the browser client area. It's border is two-pixels wide, solid gold. (You can reduce this to zero pixels, or make a nice border&mdash;see SKIN.) It's background is transparent, so you can see your own background. You now have a full-screen container in which you can launch your own apps. It is called <code>jsw.SCREEN</code>.</p>
+
+<p>To launch your own app create a <code>Window</code> or a <code>Window_M_BS</code>. The former has a closing button. The latter is a <code>Window</code> plus sizing buttons and a title bar. The min/max buttons have their traditional functions plus you get three restore sizes. The title bar is also a handle for dragging the window. The window corners and borders should have their traditional resize/reshape capabilities but don't, yet (20130806).</p>
+
+<p>Code your application inside your window. It includes an empty div, <code>window.delem</code> ("delem" for DOM element). Use this div as the container for your app. Be careful not to overwrite the <i>JSWindows</i> widgets (buttons, title bar) and you have a <i>JSWindows</i> application. Yes, it's that simple.</p>
+
+<h4>Multi-Window Apps</h4>
+
+<p>You may create as many windows as your app wants, within <code>jsw.SCREEN</code>. Each JSW window is also a JSW container. To limit your application to run in a particular location, use a <code>jsw.Rect</code>. (This is a window without the closing button.) For a more flexible app, use a <code>jsw.Window</code>. You start in <code>jsw.SCREEN</code>, this way:</p>
+
+<p class='code'>var my_app = new jsw.WindowMM( jsw.SCREEN, ... );</p>
+
+<p>With your own app's window, you create other windows inside it, this way:</p>
+
+<p class='code'>var dialog01 = new jsw.Window( my_app, ... );</p>
+
+<p>If you prefer, you could build your app as an object:</p>
+
+<div class='code'><pre>
+var my_app = {
+	main: new jsw.Window_M_BS( jsw.SCREEN, ... );
+};
+my_app.dialog01 = new jsw.Window( my_app.main, ... );
+my_app.dialog02 = ...
+</pre></div>
+
+<h4>The Arguments</h4>
+
+<p>The number of arguments needed to create a window is not small. This is unavoidable. What do you want for borders (color, style, width, radii)? Where should the app be placed (position, size)? How should it be styled other than borders? What title (if it's a <code>Window_M_BS</code>)?</p>
+
+<p>In general, we thought you should have the same flexibility that you would have if you were just creating your own screen objects.</p>
+
+<h4>The Details</h4>
+
+<p>Remember that <i>JSWindows</i> will take the top-right corner for its control buttons, and a stripe just left of these buttons for your title. (The title is also the drag handle).
+
+<p>Check the API and code any necessary event handlers.</p>
+
+<h4>The API</h4>
+
+<h3>Skinning&mdash;Provide Your Own Look and Feel</h3>
+
+<p>You <strong>must</strong> know what you are doing to skin a <i>JSWindows</i> app. Diving into the skinning file without knowing what's where and which comes first is a prescription for failure. So read this section carefully. Reread it even more carefully. And if anything is unclear, stop.</p>
+
+<p>Is something unclear? Email the author explaining the issue. While you are waiting for a response, reread once more. Is your answer there already? Email again. Don't be too apologetic. If you missed it, someone else might miss it, too. We consider getting the doc correct to be every bit as important as getting the code correct. Don't be bashful.</p>
+
+<h4>The <code>jsw-xxx.js</code> Files</h4>
+
+<p>You should not need to look at these files, excepting the <code>jsw-data.js</code> file (below), unless you want to dive into the internals. Email the author before you do this. Our support ends when you make the first change here. We implement ideas we like so you don't have to. There are only two valid reasons for looking at this file.</p>
+
+<p>First, you may want to see how the insides of something work. One should never stop learning, of course. On the other hand, one should never write code that depends on the internals of a foreign system remaining the same. Code to the API, not to your knowledge of internals!</p>
+
+<p>Second, you may want to have a custom version, based on your own proprietary ideas that will give your organization its own competitive advantage. We want to discourage this. Aren't there other places where you could get a competitive advantage? Make a better widget? Provide better service? If you really want to customize <i>JSWindows</i> internals, you can. Just because you <em>can</em> do something doesn't mean you <em>should</em> do it.</p>
+
+<h4>The <code>jsw-data.js</code> File</h4>
+
+<h4>The <code>jsw.SKIN</code> Objects</h4>
+
+<p>To change the look of your app, start with <code>jsw.SKINbasics</code>. Change the values here and see what your objects look like. Move on to the <code>jsw.SKIN</code> object for more detailed styling.</p>
+
+<p>A <code>Wobj</code> is as wide and high as you specify. (Note: everything you see on the screen is a <code>Wobj</code>. It's the base for <code>Rect</code>, all the <code>Button</code>s, all the <code>Window</code>s, etc.) Your specs are for the content area plus the padding and borders. An element that is 100 pixels high has 70 pixels for content if the padding is 5 pixels (top and bottom) and the border is 10 pixels (top and bottom). If you change the border to 20 pixels, the content area shrinks to 50 pixels tall. The height remains 100 pixels.<p>
+
+</div> <!-- columnable -->
+
+
+<div id="next_site_map" style="display: inline-block; position: relative">
+
+<h2 style="position: relative; top: -25px">
+<span style="font-size: 14pt;">
+    <button id="show_site_map_button" style= "font-size: 10pt;">
+        Show
+    </button> Site Map, Page Children
+</span></h2>
+
+<div id="site_map" style="
+    background-color: #f0f0ff;
+    border: #a0a0ff double 5px;
+    border-radius: 0 20px 20px 0;
+    display: none;
+    margin-left: 20px;
+    padding: 10px;
+    position: relative;
+">
+
+<span style="margin-left: 0px"> <a href="intro.html"
+	 title="A JavaScript Windowing system."> <i>JSW</i> Doc  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="class-doc.html"
+	 title="The classes in the JSWindows system."> <i>JSW</i> Classes  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="capability-classes.html"
+	 title="The capability classes in the JSWindows system."> Capability  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="library-classes.html"
+	 title="The library classes in the JSWindows system."> Library  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="borders.html"
+	 title="The Borders class in the JSWindows system."> Borders  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="choices.html"
+	 title="The Choices class in the JSWindows system."> Choices  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="drag-listener.html"
+	 title="The Drag_listener class in the JSWindows system."> Drag_listener  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="pos-size.html"
+	 title="The Pos_size class in the JSWindows system."> Pos_size  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="wobj-classes.html"
+	 title="The Wobj-based classes in the JSWindows system."> Wobj  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="wobj-classes-basic.html"
+	 title="The basic Wobj-based classes in the JSWindows system."> Basics  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="wobj.html"
+	 title="The Wobj class in the JSWindows system."> Wobj  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="panel.html"
+	 title="The Panel class in the JSWindows system."> Panel  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="rect.html"
+	 title="The Rect class in the JSWindows system."> Rect  </a> </span> <br>
+
+<span style="margin-left: 150px"> <a href="wobj-classes-widget.html"
+	 title="The Wobj-based widget classes in the JSWindows system."> Widgets  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="wobj-buttons.html"
+	 title="The Wobj-based button classes in the JSWindows system."> Buttons  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="button.html"
+	 title="The Button class in the JSWindows system."> Button  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="button-close.html"
+	 title="The Button_close class in the JSWindows system."> Close  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="btn_title.html"
+	 title="The Btn_title class in the JSWindows system."> Btn_title  </a> </span> <br>
+
+<span style="margin-left: 150px"> <a href="wobj-classes-windows.html"
+	 title="The window classes in the JSWindows system."> Windows  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="window.html"
+	 title="The Window class in the JSWindows system."> Window  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="minbox.html"
+	 title="The Minbox class (the minimized windows box) in the JSWindows system."> Minbox  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="window-m.html"
+	 title="The Window_M class (Window w/draggable title) in the JSWindows system."> Movable  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="window-m-bs.html"
+	 title="The Window_M_BS class (movable Window w/sizing buttons) in the JSWindows system."> Button Sizable  </a> </span> <br>
+
+<span style="margin-left: 50px"> <a href="library-data.html"
+	 title="The library data in the JSWindows system."> <i>JSW</i> Data  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="library-functions.html"
+	 title="The library functions in the JSWindows system."> <i>JSW</i> Functions  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="object-doc.html"
+	 title="The defined objects in the JSWindows system."> <i>JSW</i> Objects  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="styles.html"
+	 title="The 'styles' objects in the JSWindows system."> Styles  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="other.html"
+	 title="The 'other; objects in the JSWindows system."> Other  </a> </span> <br>
+
+</div> <!-- site_map -->
+
+</div> <!-- next_site_map -->
+
+<script type="text/javascript">
+
+var site_map_button =
+        document.getElementById( "show_site_map_button" );
+    site_map_button.onclick = show_hide_site_map;
+
+function show_hide_site_map() {
+    var button=this;
+    var map_div = document.getElementById( "site_map" );
+
+    if ( map_div.style.display === "none" ) {
+        map_div.style.display = "block";
+        button.innerHTML = "Hide";
+    } else {
+        map_div.style.display = "none";
+        button.innerHTML = "Show";
+    }
+} // end: show_hide_site_map()
+
+</script>
+
+<hr>
+
+<p>Feedback: MartinRinehart at gmail dot com</p>
+
+<p style='text-align: center'># # #</p>
+
+</div> <!-- content -->
+
+    <script type='text/JavaScript'>
+        MRview323 = {};
+        MRview323.medallion_img_src =
+                '../../../graphics/medallion-op-b090a0.png';
+		MRview323.COLOR_background = '#fdf4f8';
+	</script>
+
+    <script type='text/JavaScript'
+            src='../../../../../../support/js/mr-lib323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../../../support/js/mr-data323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../../../support/js/mr-view323.js'> </script>
+
+    <script type='text/JavaScript'>
+
+    </script>
+
+</body> </html>
+
+<!-- end of intro.html -->

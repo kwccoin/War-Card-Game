@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+
+<!-- fe-e\books\op\knowits-op.html - cover page, online knowit, JavaScript inheritance and object programming -->
+<!-- copyright 2013, Martin Rinehart -->
+
+<html>
+
+<head>
+
+    <title>JOP: JavaScript Object Programming</title>
+
+    <meta name="keywords" content="JavaScript, OP JavaScript, JavaScript OP, online cover browser JavaScript OP, browser JavaScript OP knowit">
+    <meta name="description" content="cover page for online portion of JavaScript Object Programming">
+    <meta name="author" content="Martin Rinehart">
+    <meta name="robots" content="all">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel='stylesheet' type='text/css' href='../../../support/css/mr.css'>
+
+    <link
+        rel='shortcut icon'
+        href='http://www.MartinRinehart.com/favicon.ico'
+    >
+
+    <style type='text/CSS'>
+		/* a { text-decoration: none; } */
+
+		button {
+			background-color: #f5f2f3;
+			border: #b090a0 outset 5px;
+			border-radius: 10px;
+			margin-left: 10px;
+			margin-top:  20px;
+		}
+
+		button:hover {
+			background-color: white;
+			cursor: pointer;
+		}
+
+		h2 {
+			font-family: 'times new roman', serif;
+			left: 20px;
+			margin-left: 0px;
+			position: relative;
+			text-shadow: none;
+		}
+
+		h3 {
+			font-size: 8pt;
+			padding-left: 20px;
+		}
+
+		li { padding: 10px; }
+
+		.button_major {
+			font-size: 1.5em;
+		}
+
+		.button_minor {
+			font-size: 16pt;
+		}
+
+		.chap_name {
+			font-weight: bold;
+		}
+
+		.chap_num {
+			font-size: 16pt;
+			font-weight: bold;
+		}
+
+		.large {
+			font-size: 12pt;
+		}
+
+		.learn_more_box {
+			background-color: #f5f2f3;
+			border: #e0e0a0 ridge 5px;
+			border-radius: 20px;
+			font-size: 12pt;
+			margin-bottom: 20px;
+			padding: 20px;
+		}
+
+		.more_less_btn {
+			background-color: #f5f2f3;
+			border: #b090a0 outset 5px;
+			font-size: 12pt;
+			line-height: 16pt;
+			padding: 3px;
+			position: relative;
+			top: -2px;
+		}
+
+		.ref {
+			background: yellow;
+			color: #2020d0;
+			font-weight: bold;
+			margin-right: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.sidebar {
+			background-color: #f5f2f3;
+			border: #b090a0 groove 3px;
+			margin-left: 10px;
+		}
+
+		#buy, #preview, #learn_more {
+			/* border: green solid 1px; */
+			margin-top: 20px;
+			padding-bottom: 40px;
+		}
+
+		#buy, #preview {
+			height: 300px;
+			position: relative;
+		}
+
+		#close_sale_div {
+			background:		red;
+			color:			white;
+			cursor:			default;
+			font-family:	FreeSans, Arial, Helvetica, sans-serif;
+			font-size:		18px;
+			font-weight:	bold;
+			height:			20px;
+			line-height:	20px;
+			padding-left:	4px;
+			position:		absolute;
+			right:			5px;
+			top:			5px;
+			width:			16px;
+		}
+
+		#close_sale_div:hover {
+			cursor:			pointer;
+			background:		pink;
+		}
+
+		#content { background-color: white; }
+
+		#sale {
+			background:		rgba( 255, 200, 200, 0.25 );
+			border:			red double 9px;
+			border-radius:	30px;
+			color:			red;
+										display: none;
+			font-size:		3em;
+			font-weight:	bold;
+			height:			200px;
+			left:			30%;
+			padding:		30px;
+			position:		fixed;
+			top:			160px;
+			width:			40%;
+
+				-ms-transform: rotate( -25deg );
+			-webkit-transform: rotate( -25deg );
+					transform: rotate( -25deg );
+
+			transition: -ms-transform 2s;
+			transition: -webkit-transform 2s;
+			transition: transform 2s;
+
+		}
+
+		#sale:hover {
+
+				-ms-transform: rotate( 0deg );
+			-webkit-transform: rotate( 0deg );
+					transform: rotate( 0deg );
+		}
+
+		#sale_detail s {
+			font-size: 0.75em;
+		}
+
+    </style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39528135-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body><span id='will_grow_tall'></span>
+
+<div id='sale'>
+	<div id='close_sale_div'>X</div>
+<p id='sale_on'>On sale! Now!</p>
+<p id='sale_detail'>$<s>29.95</s> 14.95</p>
+</div>
+
+<div id='content'>
+
+<div class='buttons' align='center'>
+
+<a href='jiop-gateway.html'><button id='button_own'>I already <br><span class='button_major'>Own</span> <br>the book.</button></a>
+
+<button id='button_buy'>Where can I <br><span class='button_major'>Buy</span> <br>the book.</button>
+
+<button id='button_preview'>I'd like to see a <br><span class='button_major'>Preview</span> <br>of the book.</button>
+
+<button id='button_learn_more'>I'd like to <br><span class='button_major'>Learn More</span> <br>about the book.</button>
+</div>
+
+<br clear='left'>
+
+<h1> <i>JavaScript Object Programming (JOP)</i></h1>
+<p id='copy'> &copy; 2 August, 2013, Martin Rinehart</p>
+
+<br clear='left'>
+
+<p>For more book content, select (here or on the menu above):<br>
+	<span class='choices'><a href='jiop-gateway.html'>Gateway Page</a></span> for access to the rest of the online content, including links to internal and external (reference) resources,<br>
+	<span class='choices'><a href='op-code.html'>Coding Tutorials</a></span> for tutorials, chapters 2 through 6 in the book,<br>
+	<span class='choices'><a href='jswindows/op-doc-user.html'>Using <i>JSWindows</i></a></span> for an engineer's fun buzz through <i>JSWindows</i> from the user's point of view,<br>
+	<span class='choices'><a href='jswindows/op-doc-coder.html'><i>JSW</i> Examples</a></span> to view the code behind the user tutorial,<br>
+	<span class='choices'><a href='jswindows/doc-coder/code/intro.html'><i>JSW</i>
+	Doc</a></span> for detailed engineer's doc, and<br>
+	<span class='choices'><a href='jswindows/source/op-source.html'>Source Code</a></span> for the <i>JSWindows</i> system used in this book.<br>
+</p>
+<div id='buy'>
+
+<div style='border: white solid 20px; margin: 20px;'>&nbsp;</div>
+
+<div style='float: left; margin-right: 20px; text-decoration: none'>
+
+<iframe src="http://rcm-na.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=clint0d-20&o=1&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=1490463046" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+</div>
+
+<h2 class='button_major'>Buy <span class='button_minor'><i>JavaScript Object Programming</i></span></h2>
+
+	<p class='large'>If you want the best price (for most buyers), click "Best Price" in the Amazon box.</p>
+	<p class='large'>If you have a discount code, order from the <a href='http://www.createspace.com/4327336' target='_new'>CreateSpace eStore</a>.</p>
+
+<br clear='left'>
+
+<a href='#'>top</a>
+
+</div> <!-- buy -->
+
+<br clear='left'>
+
+<div id='preview'>
+
+<div style='border: white solid 20px; margin: 20px;'>&nbsp;</div>
+
+<h2 class='button_major'>Preview <span class='button_minor'><i>JavaScript Object Programming</i></span></h2>
+<p class='large'>Like to see for yourself? Free? <a href='op-v4-color-preview.pdf'>Open the first three chapters</a> in your browser. Right now!</p>
+
+<p class='large'>Want to look at the backmatter? Appendix A is about <i>ex nihilo</i> classes. The Notes cite lots of references for the controversial statements. <a href='http://martinrinehart.com/frontend-engineering/knowits/op/op-v4-bw-backmatter.pdf'>Check the backmatter.</a></i></p>
+
+<p>Suggestion: File/Save, anywhere you like, and reopen with the Adobe Reader (the 2-page view is our favorite).</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<div id='learn_more'>
+
+<div style='border: white solid 20px; margin: 20px;'>&nbsp;</div>
+
+<h2 class='button_major'>Learn More <span class='button_minor'>about <i>JavaScript Object Programming</i></span></h2>
+
+<div class='sidebar'>
+<p>You are interviewing for a well-paid job. Your interviewer (you've gotten past HR to actual programmers) asks, "Tell me about how you use inheritance in your frontend code."</p>
+
+<p>The person who gets hired starts talking about his or her last project and how s/he used inheritance with capabilities to...</p>
+
+<p>That's you, right?</p>
+</div>
+
+<p><i>JavaScript Object Programming</i> (<i>JOP</i>) is the book you want to start at the beginning and then proceed, step-by-step, into the highly productive world of JavaScript object programming. Here's what you will learn:</p>
+
+<h2><button id='objects_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>1</span> <span class='chap_name'>Objects</span></h2>
+
+<p>Why and how they took over the software world and what you can expect from them. Also, introduces an extended system built on objects and class-based inheritance, <i>JSWindows</i>. (You can <a href='jswindows/op-doc-user.html' target='_new'>try it yourself, here)</a>.)</p>
+
+<div id='objects_more_less'>
+
+	<h3>Objects and Object-Oriented Programming Took Over</h3>
+
+	<p>Objects came out of the research labs in the late '70s and early '80s. The first mainstream language supporting objects was Bjarne Stroustrup's C++ (from Bell Labs, where C was born), first available in 1983. It caught on among C programmers. (C was then the dominant language for programming personal computers, minicomputers and mainframes other than IBM mainframes.)</p>
+
+	<p>Today, the C++ object model has been implemented in newer languages, such as Java, and added to even very old languages, such as Basic, Cobol and Fortran. It has been extended in languages such as Python and Ruby.<p>
+
+	<h3>Why Are Objects Ubiquitous?</h3>
+
+	<p>In the book we cite three causes. The most important is that objects help reduce large programs to a group of small programs. As programming difficulty expands exponentially with program size, 10 small programs are much easier to write and debug than a single program of the same total length.</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<h2><button id='javascript_objects_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>2</span> <span class='chap_name'>JavaScript Objects</span></h2>
+
+<p>Discusses built-in objects, <i>ex nihilo</i> (from nothing&mdash;object literals) through constructors and custom classes.</p>
+
+<div id='javascript_objects_more_less'>
+
+	<h3>JavaScript's Built-In Objects</h3>
+
+JavaScript beginners learn to use JavaScript's built-in classes like <code>Math</code> and <code>Date</code>. The former is really a library of useful routines (like <code>Math.round()</code> and <code>Math.ceil()</code>) all organized as the properties of <code>Math</code>. The <code>Date</code> function is a bit more like an object-oriented tool. The exact current time is, for example, encapsulated in a <code>new Date()</code> instance object.</p>
+
+	<h3>Create JavaScript Objects "from Nothing"</h3>
+
+<p>"<i>Ex nihilo</i>" (literally, "from nothing") JavaScript objects can be instantiated from the <code>Object()</code> constructor or from JavaScript's object literal notation:</p>
+
+<p class='code'>myObject = new Object();</p>
+
+<p>The above line creates a new object. It has no properties. You could add data properties this way:<p>
+
+<p class='code'>myObject.color = 'blue';<br>
+myObject.size = 'large';</p>
+
+<p>Critically important when we move to object programming, these two lines do the same job as the above pair:</p>
+
+<p class='code'>myObject['color'] = 'blue';<br>
+myObject['size'] = 'large';</p>
+
+<p>You could also create the same object this way:</p>
+
+<p class='code'>myObject = { color:'blue', size:'large' };</p>
+
+	<h3>Create JavaScript Objects from Custom Constructors</h3>
+
+<p>If you wanted to create a family of widgets, and the important properties of widgets were their colors and sizes, you would start with a constructor function:</p>
+
+<div class='code'><pre>
+function Widget(color, size) {
+	this.color = color;
+	this.size = size;
+}
+</pre></div>
+
+<p>With that constructor, you could create widgets this way:</p>
+
+<div class='code'><pre>
+widg1 = new Widget('blue', 'large');
+widg2 = new Widget('red', 'small');
+
+alert( widg1.color ); // 'blue'
+alert( widg2.size ); // 'small'
+</pre></div>
+
+<br clear='left'><a href='#'>top</a>
+
+</div>
+
+<div class='sidebar'>
+<p>Your JavaScript has stopped being simple. Your gut tells you that using objects could make your work a lot easier. If only you knew...</p>
+</div>
+
+<h2><button id='object_programming_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>3</span> <span class='chap_name'>Object Programming</span></h2>
+
+<p>What really separates JavaScript from C++ (and all the other class-based, "object-oriented" languages) is that your objects can be manipulated during execution. Add properties. Manipulate property names, not just values.</p>
+
+<div id='object_programming_more_less'>
+<h3>Object-Oriented Programming in Class-Based Languages</h3>
+<p>In C++ and its followers (Java, C#, VB, etc.) the "class" (a software module) defines the objects that are created as members of the class. It specifies what data properties they will have and what methods they can execute. It also provides the code for the methods (called "instance methods"). With object-oriented programming (OOP) the programmer can manipulate the values of the data properties during program execution.</p>
+
+<p>With conventional OOP, the programmer cannot add or delete properties during execution. The programmer cannot add, delete or modify the instance methods. The programmer cannot work with the names of the properties.</p>
+
+<h3>Object Programming Defined</h3>
+
+<p>Object programming (OP) allows the programmer full access to the objects during execution of the program. Data values can be changed. Methods can be changed. Properties, both data and method, can be added or deleted. The programmer can manipulate property names as well as values.</p>
+
+<h3>Object Programming Demonstrated</h3>
+
+<p>You have a class, <code>Extend</code> that should inherit from another, <code>Base</code>. The <code>Extend</code> prototype has useful properties. Now you want to add the properties of the <code>Base</code> class to it. This little bit of code is all you need:</p>
+
+<div class='code'><pre>
+for (var name in Base.prototype) {
+	Extend.prototype[name] = Base.prototype[name];
+}
+</pre></div>
+
+<p>Object programming (OP) in JavaScript is brilliantly simple. It is easy to write and easy to read. This is the essential difference between JavaScript and class-based languages. (The fragment above creates new properties in the <code>Extend</code> object, assigning them both names and values. This would be nearly impossible in C++ or Java.)</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<h2><button id='inheritance_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>4</span> <span class='chap_name'>Inheritance</span></h2>
+
+<p>What is it? How is class-based inheritance different from prototypal inheritance? (Ace the interview answer: "I use both class-based and prototypal inheritance. Which would you like me to talk about?")</p>
+
+<div id='inheritance_more_less'>
+
+<h3>Class-Based Inheritance</h3>
+
+<p>There are two kinds of inheritance in use today. By far the most common is the class-based inheritance pioneered in C++. To understand this we need to understand all of the meanings of the word "class" as used in the software field.</p>
+
+<dl>
+	<dt>family</dt> <dd>A "class" is a set of objects that all have the same properties. In practice this usually means the set of objects that were created by a single constructor. We call this type of class a "family."</dd>
+
+	<dt>class</dt> <dd>A "class" may be the set of properties that a "family" of objects possess.</dd>
+
+	<dt>OOP class</dt> <dd>A "class" may be the software that defines a "class" as defined above. We call this an "OOP class." OOP classes commonly provide a constructor (function that creates new members of the family) and instance methods that can be called for each member of the family. Most OOP classes can also have their own properties. In Java, these are called "class statics" from the "static" keyword used to define them.</dd>
+
+</dl>
+
+<p>Any two classes (second definition) may have one of these relationships:</p>
+
+<ul>
+	<li>They have no properties in common.</li>
+	<li>The two sets of properties have some overlap. (Both classes have some properties shared with the other class, some not shared.)</li>
+	<li>One class is a superset of the other. The subset class has no properties not also included in the superset class.</li>
+</ul>
+
+<p>(To be complete, both classes could have the same set of properties. Most programmers would write a single class for this case.)</p>
+
+<p>In the book, Figure 4-1 shows these relationships:</p>
+
+<div align='center'>
+<img
+	alt='Drawing of classes with overlapping property sets.'
+	border=0
+	src='graphics/e plus b.png'
+	title='Classes with partial overlap of property sets.'
+	width='60%'
+>
+</div>
+
+<p>Class-based inheritance is used in the third case, where one class is a subset of another. In the book Figure 4-2 shows this relationship.</p>
+
+<div align='center'>
+<img
+	alt='Drawing of classes where one (called "Extend") is a superset of another (called "Base").'
+	border=0
+	src='graphics/1-1.png'
+	title='Classes where an extending class is a superset of a base class.'
+	width='50%'
+>
+</div>
+
+<p>In this case the prototypal terminology says that <code>Extend</code> "inherits" from <code>Base</code>. In class based languages there is normally a special provision to describe this relationship. In Java, the OOP class software would say that <code>Extend extends Base</code>. C++ would tersely declare: <code>Extend: Base</code>.</p>
+
+<h3>Prototypal Inheritance</h3>
+
+<p>In the Self language (one of the principle parent languages of JavaScript) one object serves as the prototype of another object. We say that the superset object "inherits" from the subset (prototype) object.</p>
+
+<h3>JavaScript's Inheritance</h3>
+
+<p>JavaScript uses the term "prototype" to indicate an object, referenced by the constructor, from which each family member will share properties. This allows an entire family to "inherit" from a base object.</p>
+
+<p>To summarize, in class-based OOP, "inheritance" refers to the assumption by an extending class of all the data and method properties of a base class. In pure prototypal inheritance, one object assumes all the properties of a base prototype object. In JavaScript, a family (first definition of "class") inherits the properties of a prototype object.</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<div class='sidebar'>
+<p>You're using the technique you read about, using the prototype chain for inheritance (or library code that uses the prototype chain) and you have started to wonder: is there a better way...?</p>
+</div>
+
+<h2><button id='javascript_inheritance_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>5</span> <span class='chap_name'>JavaScript Inheritance</span></h2>
+
+<p>How do you program class-based and prototypal inheritance?</p>
+
+<div id='javascript_inheritance_more_less'>
+
+<p>In this short summary we cannot squeeze all of Chapter 5. A few words will have to suffice.</p>
+
+	<h3> Inheriting Data Properties in JavaScript </h3>
+
+<p>JavaScript constructors, called with the "new" operator, perform some special operations that you do not want repeated in both a base and an extending class. We therefore recommend coding an <code>init()</code> method, separate from the constructor, that performs the initializations you require. Your full constructor then looks like this:</p>
+
+<div class='code'><pre>
+function Constructor(params) {
+    Constructor.init(this, params);
+}
+
+Constructor.init = function(object_to_init, params) {
+    // your initialization logic here
+}
+</pre></div>
+
+<p>This is not quite as simple as just coding the <code>Constructor()</code> function. But when you want class-style inheritance, it lets you code this:</p>
+
+<div class='code'><pre>
+function Base(params) {
+    Base.init(this, params);
+}
+Base.init = function (object_to_init, params) {
+    // your logic here
+}
+
+function Extend(params) {
+    Base.init(this, params);
+    // additional logic here
+}
+</pre></div>
+
+<p>If a third class might use <code>Extend</code> as its base, then you would break the <code>Extend()</code> constructor into a near-empty constructor and an <code>init()</code> function. Repeating this technique lets you write an inheritance chain of any length.</p>
+
+	<h3> Inheriting Instance Methods in JavaScript </h3>
+
+<p>In some ways, the data properties are the easy ones. You typically want each object to have its own data properties. You do <strong>not</strong>, however, want each object to have a copy of each instance method. It is better to copy the class-based OOP approach of placing all the instance method code in one place where all instances can access it. In JavaScript, the place analogous to the OOP class module is the constructor's prototype property.</p>
+
+<p>If you want all the instances to have access to a single code base, just place the method code in the prototype. If your objects will be created by the <code>Constructor()</code> function, this is the technique:</p>
+
+<div class='code'><pre>
+function Constructor(params) {
+    // initialize, typically using an init()
+}
+
+Constructor.prototype.method_name = function (params for the method) {
+    // method logic goes here
+}
+</pre></div>
+
+	<h3> Prototypal Inheritance Code </h3>
+
+<p>To "inherit" from a prototype object, simply assign that object to the constructor's prototype property:</p>
+
+<p class='code'>Constructor.prototype = prototype_object;</p>
+
+<p>(Actually, the above line will destroy the <code>constructor</code> property that is provided by default in the <oode>prototype</code> object. See the section (Chapter 3 above) on object programming for an improved version.)</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<h2><button id='inheritance_alternatives_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>6</span> <span class='chap_name'>Inheritance Alternatives</span></h2>
+
+<p>Most inheritance is forced to fit because class-based languages don't have a good set of tools. JavaScript has a marvelous set of tools and never needs to be forced into inheritance.</p>
+
+<div id='inheritance_alternatives_more_less'>
+
+	<h3>Multiple Inheritance</h3>
+
+<p>One of the most difficult problems with inheritance is that sometimes there can be more than one possible base class. In the book, Figure 6-1 illustrates the circumstance.</p>
+
+<div align='center'>
+<img
+	alt='Drawing showing two base classes with one extending class.'
+	border=0
+	src='graphics/2-1.png'
+	title='Extending class with two, disjoint base classes.'
+	width='50%'
+>
+</div>
+
+<p>This raised questions. Which base-class constructor should run first? What happens if <code>B2</code> depends on values in <code>B1</code> and vice-versa?</p>
+
+<p>Worse, there is the diamond inheritance pattern. <code>A</code> is extended by <code>B1</code> and by <code>B2</code>. <code>B1</code> and <code>B2</code> are both extended by <code>C</code>. (This pattern proved surprisingly common.)</p>
+
+	<h3>Interfaces</h3>
+
+<p>Java (born 1995, partly to simplify C++ for use on the internet) introduced "interfaces," as one way to avoid the complexities of multiple inheritance. Originally documented as a sort of poor man's substitute for multiple inheritance, interfaces are now considered by many to be one of the fundamentals of object-oriented programming.</p>
+
+<p>A Java interface is a definition of a class API. The methods are defined (name, calling arguments, return types) but not implemented. It is up to an implementing class to provide the code. One now-famous software design book told us to code to the interface, not to the implementation.</p>
+
+	<h3>Capabilities</h3>
+
+<p>Our book introduces what we call "capabilities" in Chapter 6. A "capability" is similar to a Java interface, but with the methods implemented. On top of this, a capability includes the logic needed to graft itself onto an existing class. From Java, we borrowed the "implements" keyword as a method for objects that wish to avail themselves of capabilities:</p>
+
+<p class='code'>my_class.implements('capability_name');</p>
+
+<p>Like Java's interfaces, capabilities reduce or eliminate the complexities of multiple inheritance. They frequently let the designer reduce the length of inheritance chains.</p>
+
+	<h3>Mixins</h3>
+
+<p>One of the oldest JavaScript-specific design patters, the "mixin" is very similar to our capability. The programmer uses object programming to add a set of new properties (commonly method properties) to a class. Like capabilities, a single mixin could be introduced to multiple classes. Again, the end result is that there is less code, or the individual code modules are shortened making for easier maintenance and fewer bugs.</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<h2><button id='designing_for_javascript_more_less_btn' class='more_less_btn'></button>
+	<span class='chap_num'>7</span> <span class='chap_name'>Designing for JavaScript</span></h2>
+
+<p>We discuss a fundamental principle: making JavaScript objects fit the reality your systems model (not trying to force reality to fit class-based tools).</p>
+
+<div id='designing_for_javascript_more_less'>
+
+<p>These four recommendations emerge from our work.</p>
+
+	<h3>Use <i>ex nihilo</i> Objects Constantly</h3>
+
+<p>JavaScript liberates the object from the OOP class. When it is no longer necessary to write an OOP module to support each object, objects become much more commonly useful. We use them as regularly as we use arrays.</p>
+
+	<h3>Use Composition Liberally</h3>
+
+<p>Just as objects help break down long programs into smaller, more manageable parts, objects can help break down objects into smaller, more manageable parts. Examples in the book illustrate, for example, breaking the borders out of screen objects as a separate object class.</p>
+
+	<h3>Use Capabilities Liberally</h3>
+
+<p>Capabilities model an essential element of reality: different types of objects can do the same thing. Dogs, cats and elephants can all speak. On-screen objects can all have draggable title bars. A title bar capability fits windows, dialog boxes, panels within dialogs, and so on. Again, it can be programmed separately in a smaller, more manageable way.</p>
+
+	<h3>Use Inheritance Conservatively</h3>
+
+<p>In OOP programming, inheritance features prominently through lack of alternative tools. JavaScript has an excellent object programming capability that lets the programmer create other tools as needed. Class-based inheritance should only be used when the reality being modelled is an object family that has a superset of the properties of another object family. There is no need, in JavaScript, to force this relationship on your object families.</p>
+
+<a href='#'>top</a>
+
+</div>
+
+<h2>About the Book</h2>
+
+<p>And did we mention, it's a short book? And did we mention the programming tutorials? (There's code to write, and there are completed programs to look at online, if you get stuck.) And did we mention that the <i>JSWindows</i> system, (it uses extensive inheritance) has all its code online for you to study?<p>
+
+<p>The next step is up to you.</p>
+
+<div align='center'>
+<button id='button_buy2'>I've decided to <br><span class='button_major'>Buy</span> <br>the book.</button>
+
+<button id='button_preview2'>I'd like to see a <br><span class='button_major'>Preview</span> <br>of the book.</button>
+</div>
+<br>
+
+<br>
+<a href='#'>top</a><br>
+<div id="next_site_map" style="display: inline-block; position: relative">
+
+<h2 style="position: relative; top: -25px">
+<span style="font-size: 14pt;">
+    <button id="show_site_map_button" style= "
+            border-style: outset;
+            border-width: 3px;
+            font-size: 10pt;
+            line-height: 14pt;
+            height: 30px;
+            padding: 3px;
+            position: relative;
+            top: -3px;
+            width: 60px;
+    ">
+        Show    </button> Site Map, Page Children
+</span></h2>
+
+<div id="site_map" style="
+    background-color: #f0f0ff;
+    border: #a0a0ff double 5px;
+    border-radius: 0 20px 20px 0;
+    display: none;
+    margin-left: 20px;
+    padding: 10px;
+    position: relative;
+">
+
+<span style="margin-left: 0px"> <a href="jiop.html"
+	 title="<i>JavaScript Object Programming</i>."> <i>JOP</i>  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="jiop-gateway.html"
+	 title="JOP internal and external sources, reference."> <i>JOP</i> Gateway Page  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="op-code.html"
+	 title="Coding tutorial, JavaScript Object Programming"> Coding Tutorials  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="op-tutorial/op-tut-2/op-tut-2.html"
+	 title="Coding tutorial, Chapter 2, JavaScript Object Programming"> 2  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2a.html"
+	 title="Coding tutorial, Chapter 2a, JavaScript Object Programming"> A  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2b.html"
+	 title="Coding tutorial, Chapter 2b, JavaScript Object Programming"> B  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2c.html"
+	 title="Coding tutorial, Chapter 2c, JavaScript Object Programming"> C  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2d.html"
+	 title="Coding tutorial, Chapter 2d, JavaScript Object Programming"> D  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2e.html"
+	 title="Coding tutorial, Chapter 2e, JavaScript Object Programming"> E  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-2/op-tut-2f.html"
+	 title="Coding tutorial, Chapter 2e, JavaScript Object Programming"> F  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="op-tutorial/op-tut-3/op-tut-3.html"
+	 title="Coding tutorial, Chapter 3, JavaScript Object Programming"> 3  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3a.html"
+	 title="Coding tutorial, Chapter 3a, JavaScript Object Programming"> A  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3b.html"
+	 title="Coding tutorial, Chapter 3b, JavaScript Object Programming"> B  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3c.html"
+	 title="Coding tutorial, Chapter 3c, JavaScript Object Programming"> C  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3d.html"
+	 title="Coding tutorial, Chapter 3d, JavaScript Object Programming"> D  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3e.html"
+	 title="Coding tutorial, Chapter 3e, JavaScript Object Programming"> E  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3f.html"
+	 title="Coding tutorial, Chapter 3f, JavaScript Object Programming"> F  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-3/op-tut-3g.html"
+	 title="Coding tutorial, Chapter 3g, JavaScript Object Programming"> G  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="op-tutorial/op-tut-4/op-tut-4.html"
+	 title="Coding tutorial, Chapter 4, JavaScript Object Programming"> 4  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-4/op-tut-4a.html"
+	 title="Coding tutorial, Chapter 4a, JavaScript Object Programming"> A  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-4/op-tut-4b.html"
+	 title="Coding tutorial, Chapter 4b, JavaScript Object Programming"> B  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-4/op-tut-4c.html"
+	 title="Coding tutorial, Chapter 4c, JavaScript Object Programming"> C  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-4/op-tut-4d.html"
+	 title="Coding tutorial, Chapter 4d, JavaScript Object Programming"> D  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-4/op-tut-4e.html"
+	 title="Coding tutorial, Chapter 4e, JavaScript Object Programming"> E  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="op-tutorial/op-tut-5/op-tut-5.html"
+	 title="Coding tutorial, Chapter 5, JavaScript Object Programming"> 5  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5a.html"
+	 title="Coding tutorial, Chapter 5a, JavaScript Object Programming"> A  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5b.html"
+	 title="Coding tutorial, Chapter 5b, JavaScript Object Programming"> B  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5c.html"
+	 title="Coding tutorial, Chapter 5c, JavaScript Object Programming"> C  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5d.html"
+	 title="Coding tutorial, Chapter 5d, JavaScript Object Programming"> D  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5e.html"
+	 title="Coding tutorial, Chapter 5e, JavaScript Object Programming"> E  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5f.html"
+	 title="Coding tutorial, Chapter 5f, JavaScript Object Programming"> F  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-5/op-tut-5g.html"
+	 title="Coding tutorial, Chapter 5g, JavaScript Object Programming"> G  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="op-tutorial/op-tut-6/op-tut-6.html"
+	 title="Coding tutorial, Chapter 6, JavaScript Object Programming"> 6  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-6/op-tut-6a.html"
+	 title="Coding tutorial, Chapter 6a, JavaScript Object Programming"> A  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="op-tutorial/op-tut-6/op-tut-6b.html"
+	 title="Coding tutorial, Chapter 6b, JavaScript Object Programming"> B  </a> </span> <br>
+
+<span style="margin-left: 50px"> <a href="jswindows/op-doc-user.html"
+	 title="User tutorial, <i>JSWindows</i>."> Using <i>JSWindows</i>  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-1.html"
+	 title="<I>JSWindows</i> Lesson 1."> 1  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-2.html"
+	 title="<I>JSWindows</i> Lesson 2."> 2  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-3.html"
+	 title="<I>JSWindows</i> Lesson 3."> 3  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-4.html"
+	 title="<I>JSWindows</i> Lesson 4."> 4  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-5.html"
+	 title="<I>JSWindows</i> Lesson 5."> 5  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-6.html"
+	 title="<I>JSWindows</i> Lesson 6."> 6  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-7.html"
+	 title="<I>JSWindows</i> Lesson 7."> 7  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-8.html"
+	 title="<I>JSWindows</i> Lesson 8."> 8  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-9.html"
+	 title="<I>JSWindows</i> Lesson 9."> 9  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-10.html"
+	 title="<I>JSWindows</i> Lesson 10."> 10  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-user/op-doc-user-11.html"
+	 title="<I>JSWindows</i> Lesson 11."> 11  </a> </span> <br>
+
+<span style="margin-left: 50px"> <a href="jswindows/op-doc-coder.html"
+	 title="Engineer's documentation, JSWindows system 'Using JSW' examples."> <i>JSW</i> Examples  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-5.html"
+	 title="<I>JSWindows</i> Lesson 5."> 5  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-6.html"
+	 title="<I>JSWindows</i> Lesson 6."> 6  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-7.html"
+	 title="<I>JSWindows</i> Lesson 7."> 7  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-8.html"
+	 title="<I>JSWindows</i> Lesson 8."> 8  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-9.html"
+	 title="<I>JSWindows</i> Lesson 9."> 9  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-10.html"
+	 title="<I>JSWindows</i> Lesson 10."> 10  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/examples/op-doc-coder-11.html"
+	 title="<I>JSWindows</i> Lesson 11."> 11  </a> </span> <br>
+
+<span style="margin-left: 50px"> <a href="jswindows/doc-coder/code/doc-coder-code-intro.html"
+	 title="A JavaScript Windowing system."> <i>JSW</i> Doc  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/code/class-doc.html"
+	 title="The classes in the JSWindows system."> <i>JSW</i> Classes  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="jswindows/doc-coder/code/capability-classes.html"
+	 title="The capability classes in the JSWindows system."> Capability  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="jswindows/doc-coder/code/library-classes.html"
+	 title="The library classes in the JSWindows system."> Library  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/borders.html"
+	 title="The Borders class in the JSWindows system."> Borders  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/choices.html"
+	 title="The Choices class in the JSWindows system."> Choices  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/drag-listener.html"
+	 title="The Drag_listener class in the JSWindows system."> Drag_listener  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/pos-size.html"
+	 title="The Pos_size class in the JSWindows system."> Pos_size  </a> </span> <br>
+
+<span style="margin-left: 150px"> <a href="jswindows/doc-coder/code/wobj-classes.html"
+	 title="The Wobj-based classes in the JSWindows system."> Wobj  </a> </span> <br>
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/wobj-classes-basic.html"
+	 title="The basic Wobj-based classes in the JSWindows system."> Basics  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/wobj.html"
+	 title="The Wobj class in the JSWindows system."> Wobj  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/panel.html"
+	 title="The Panel class in the JSWindows system."> Panel  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/rect.html"
+	 title="The Rect class in the JSWindows system."> Rect  </a> </span> <br>
+
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/wobj-classes-widget.html"
+	 title="The Wobj-based widget classes in the JSWindows system."> Widgets  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/wobj-buttons.html"
+	 title="The Wobj-based button classes in the JSWindows system."> Buttons  </a> </span> <br>
+<span style="margin-left: 300px"> <a href="jswindows/doc-coder/code/button.html"
+	 title="The Button class in the JSWindows system."> Button  </a> </span> <br>
+<span style="margin-left: 300px"> <a href="jswindows/doc-coder/code/button-close.html"
+	 title="The Button_close class in the JSWindows system."> Close  </a> </span> <br>
+<span style="margin-left: 300px"> <a href="jswindows/doc-coder/code/btn_title.html"
+	 title="The Btn_title class in the JSWindows system."> Btn_title  </a> </span> <br>
+
+<span style="margin-left: 200px"> <a href="jswindows/doc-coder/code/wobj-classes-windows.html"
+	 title="The window classes in the JSWindows system."> Windows  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/window.html"
+	 title="The Window class in the JSWindows system."> Window  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/minbox.html"
+	 title="The Minbox class (the minimized windows box) in the JSWindows system."> Minbox  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/window-m.html"
+	 title="The Window_M class (Window w/draggable title) in the JSWindows system."> Movable  </a> </span> <br>
+<span style="margin-left: 250px"> <a href="jswindows/doc-coder/code/window-m-bs.html"
+	 title="The Window_M_BS class (movable Window w/sizing buttons) in the JSWindows system."> Button Sizable  </a> </span> <br>
+
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/code/library-data.html"
+	 title="The library data in the JSWindows system."> <i>JSW</i> Data  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/code/library-functions.html"
+	 title="The library functions in the JSWindows system."> <i>JSW</i> Functions  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/doc-coder/code/object-doc.html"
+	 title="The defined objects in the JSWindows system."> <i>JSW</i> Objects  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="jswindows/doc-coder/code/styles.html"
+	 title="The 'styles' objects in the JSWindows system."> Styles  </a> </span> <br>
+<span style="margin-left: 150px"> <a href="jswindows/doc-coder/code/other.html"
+	 title="The 'other; objects in the JSWindows system."> Other  </a> </span> <br>
+
+<span style="margin-left: 50px"> <a href="jswindows/source/op-source.html"
+	 title="Source code for the JSWindows system (classical inheritance and object programming)."> Source Code  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/source/op-source-code.html"
+	 title="<code>jsw2-code.js</code> source code for the JSWindows system."> code  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/source/op-source-data.html"
+	 title="<code>jsw2-data.js</code> source code for the JSWindows(ci) system."> data  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/source/op-source-wobjs.html"
+	 title="<code>jsw2-wobjs.js</code> source code for the JSWindows(op) system."> wobjs  </a> </span> <br>
+<span style="margin-left: 100px"> <a href="jswindows/source/op-source-capabilities.html"
+	 title="<code>jsw2-capabilities.js</code> source code for the JSWindows(op) system."> capabilities  </a> </span> <br>
+
+</div> <!-- site_map -->
+
+</div> <!-- next_site_map -->
+
+<script type="text/javascript">
+
+var site_map_button =
+        document.getElementById( "show_site_map_button" );
+    site_map_button.onclick = show_hide_site_map;
+
+function show_hide_site_map() {
+    var button=this;
+    var map_div = document.getElementById( "site_map" );
+
+    if ( map_div.style.display === "none" ) {
+        map_div.style.display = "block";
+        button.innerHTML = "Hide";
+    } else {
+        map_div.style.display = "none";
+        button.innerHTML = "Show";
+    }
+} // end: show_hide_site_map()
+
+</script>
+
+<hr>
+
+Feedback: MartinRinehart at gmail dot com
+<br>
+<div align='center'># # #</div>
+
+</div>
+
+<div id='menu_div'></div>
+
+</div> <!-- content -->
+
+    <script type='text/JavaScript'>
+        var MRview323 = {};
+        MRview323.medallion_img_src = 'graphics/medallion-op-b090a0.png';
+        MRview323.COLOR_background = '#fcf8fa';
+    </script>
+
+    <script type='text/JavaScript'
+            src='../../../support/js/mr-lib323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../support/js/mr-data323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../support/js/mr-view323.js'> </script>
+
+    <script type='text/JavaScript'>
+
+'use strict';
+
+// "style sheet"
+
+ var elements = document.getElementsByTagName( 'h2' );
+        for ( var i = 0; i < elements.length; i += 1 ) {
+            elements[ i ].style.fontSize = '15pt';
+			elements[ i ].style.lineHeight = '18pt';
+			elements[ i ].style.textShadow = '';
+        }
+
+ var elements = document.getElementsByTagName( 'h3' );
+        for ( var i = 0; i < elements.length; i += 1 ) {
+            elements[ i ].style.fontSize = '12pt';
+			elements[ i ].style.lineHeight = '16pt';
+			elements[ i ].style.textShadow = '';
+        }
+
+// end, "style sheet"
+
+var menu_div = document.getElementById( 'menu_div' );
+
+var div_buy = document.getElementById( 'buy' );
+	div_buy.style.display = 'none';
+	document.getElementById( 'button_buy' ).onclick = buy;
+	document.getElementById( 'button_buy2' ).onclick = buy;
+
+var div_preview = document.getElementById( 'preview' );
+	div_preview.style.display = 'none';
+	document.getElementById( 'button_preview' ).onclick = preview;
+	document.getElementById( 'button_preview2' ).onclick = preview;
+
+var div_learn_more = document.getElementById( 'learn_more' );
+	document.getElementById( 'button_learn_more' ).onclick = learn_more;
+
+var more_less_buttons = {},
+	more_less_topics = [
+		'objects',
+		'javascript_objects',
+		'object_programming',
+		'inheritance',
+		'javascript_inheritance',
+		'inheritance_alternatives',
+		'designing_for_javascript'
+	],
+	detail_divs = {};
+
+for (var index in more_less_topics) {
+	var name = more_less_topics[index];
+
+	var btn = more_less_buttons[name];
+		btn = document.getElementById(name + '_more_less_btn');
+		btn.innerHTML = 'More';
+		btn.onclick = more_less_click;
+
+	var detail_div = document.getElementById(name + '_more_less');
+		detail_divs[name] = detail_div;
+		detail_div.style.display = 'none';
+};
+
+var sale_div = document.getElementById( 'sale' );
+	sale_div.onclick = close_sale_div_click;
+
+function close_sale_div_click() { sale_div.style.display = 'none'; }
+
+function buy() {
+	div_buy.style.display = 'block';
+	div_preview.style.display = 'none';
+	window.location = '#buy';
+}
+
+function get_btn_name(btn_id) {
+	var re = /(.+)_more_less_btn/;
+	btn_id.match(  re  );
+	return RegExp.$1;
+}
+
+function learn_more() {
+	div_buy.style.display = 'none';
+	div_preview.style.display = 'none';
+	window.location = '#learn_more';
+}
+
+function more_less_click() {
+	var btn = this,
+		name = get_btn_name(btn.id);
+		detail_div = detail_divs[name];
+
+	if (detail_div.style.display === 'none') {
+		detail_div.style.display = 'block';
+		btn.innerHTML = 'Less';
+	} else {
+		detail_div.style.display = 'none';
+		btn.innerHTML = 'More';
+	}
+}
+
+function preview() {
+	div_buy.style.display = 'none';
+	div_preview.style.display = 'block';
+	window.location = '#preview';
+}
+
+    </script>
+
+</body></html>
+
+<!-- end of fe-e\books\op\knowits-op.html -->
