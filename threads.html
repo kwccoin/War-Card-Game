@@ -1,0 +1,659 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- frontend-engineering\threads.html - article re lightweight threads for JavaScript -->
+<!-- Copyright 2012 Martin Rinehart -->
+
+<html>
+
+<head>
+
+<title>JavaScript Lightweight Threads</title>
+
+    <meta name="keywords" content=
+        "JavaScript, JavaScript threads, JavaScript lightweight threads">
+    <meta name=description content =
+        'Simulating lightweight threads in JavaScript.'>
+    <meta name="author" content="Martin Rinehart">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link
+        rel='stylesheet'
+        type='text/css'
+        href='../../../../support/css/mr.css'
+    >
+
+    <link
+        rel='shortcut icon'
+        href='http://www.martinrinehart.com/favicon.ico'
+    >
+
+    <style type='text/CSS'>
+
+		button { display: inline-block; }
+
+		li { margin-top: 	5px; }
+
+		.ball {
+			border: 		3px double gray;
+			border-radius: 	60px 30px;
+			display:		inline-block;
+			height: 		50px;
+			left: 			0px;
+			position: 		absolute;
+			width: 			100px;
+		}
+
+		#btn_red, #btn_white, #btn_blue {
+			left: -70px;
+			position: absolute;
+			width: 50px;
+		}
+
+		#btn_red { top: 30px; }
+		#ball_red	{ background: red;		top: 10px; }
+
+		#btn_white { top: 100px; }
+		#ball_white	{ background: white;	top: 80px; }
+
+		#btn_blue { top: 170px; }
+		#ball_blue	{ background: blue; 	top: 150px  }
+
+		#pool, #pool2 {
+			background: #e0e0ff;
+			border:		5px solid blue;
+			height:		220px;
+			left:		100px;
+			position:	relative;
+			width:		625px;
+		}
+
+		#pool  { margin-top: 20px; }
+		#pool2 { margin-top: 20px;
+				 margin-bottom: 20px;
+		}
+
+		#starter {
+			position: relative;
+			top: -15px;
+			width: 150px;
+		}
+
+    </style>
+
+</head>
+
+<body>
+
+<div id='content'>
+
+    <h1> Lightweight Threads in JavaScript </h1>
+    <p id='copy'>&copy; 2012 Martin Rinehart</p>
+
+<p class='prereq'>
+Device requirements: Enough width to see both ends of at least one "pool".<br><br>
+Prerequisites: Good understanding JavaScript objects.</p>
+
+<p>The Olympics are on! I'm all red, white and blue, patriotically cheering my countrymen and women. Across the pond the Brits are reminding me that they've been red, white and blue since before we were colonies. (Did I hear a Frenchman say "tricolor"? OK, that's Lochte in white, Agnel in blue.)</p>
+
+<p>So start the races! Start the top set from the top down. That race is rigged. Each swimmer goes the same distance each time its thread runs, but red's thread runs every 50 milliseconds. White's thread runs every 48 millis. Blue, 46 millis, will always win, if you have patience.</p>
+
+<p>The group in the pool on the bottom gets a random shot of extra juice when they hit the right end of the pool.</p>
+
+<div id='pool'>
+
+<button id='btn_red'  >Go!</button><div id='ball_red'   class='ball'></div>
+<button id='btn_white'>Go!</button><div id='ball_white' class='ball'></div>
+<button id='btn_blue' >Go!</button><div id='ball_blue'  class='ball'></div>
+
+</div>
+
+<div id='pool2'>
+
+	<button id='starter'></button>
+
+</div>
+<hr>
+
+<div class='columnable'>
+
+<p>Each "swimmer" in the pool is controlled by a program running on a separate thread. But that's impossible! Better take a look behind your monitor for wires. Or are those invisible threads?</p>
+
+<p>JavaScript does not have threads. Brendan Eich, JavaScript's inventor and now chairman of TC 39, the commmittee responsible for the international JavaScript standard, says we'll get threads "over my dead body."</p>
+
+<p>It's certainly possible for a beginning programmer to make a mess using threads. Having one thread waiting on a second while the second thread waits on the first will bring a program to a halt. Having a program produce results that depend, in part, on which of two threads happens to run first (called a "race condition") is seldom what you want.</p>
+
+<p>That said, Eich's attitude is arrogant&mdash;condescending in the extreme. "I'm smart enough to program with threads but you aren't." JavaScript programmers are at least as smart as Java programmers, (or Ruby, Python, C++, ...) who have all enjoyed the power of threads for years.</p>
+
+<p>JavaScript actually has "lightweight" threads and every JavaScripter who has used 'setTimeout()' calls to move something around the screen has been using these threads. This article presents a small package that provides a thread-style API, built on JavaScript's threads.</p>
+
+<h3>Lightweight Threads</h3>
+
+<p>In languages which support both, we speak of "lightweight" and "heavyweight" threads. The former are built within the language and run within a single operating system thread. The latter are external, controlled by the operating system. Heavyweight threads have a major advantage: they can support multiple CPUs.</p>
+
+<p>With a multicore CPU, your computer can actually be doing two or more things at once. You can be writing a poem or a program with one CPU, while another calculates the effect of global warming on the Himalayan glaciers.</p>
+
+<p>Heavyweight threads typically take a lot of resources to create and can be a bit cumbersome when it comes to starting and stopping. Spreading computation-intensive programs among multiple CPU cores is an ideal application for heavyweight threads.</p>
+
+<p>With a single core CPU, or with a language which only supports lightweight threads, your writing will share a CPU with the program that works on global warming. Let's do a quick calculation to see how this might work out.</p>
+
+<p>Assume that you can type six characters in a second. Assume that it takes 100,000 instructions to take a character from the keyboard, put it into a data structure and then display the results on your monitor. How many 'clocks' are available for other uses if your CPU processes two billion instructions per second? Writing that poem is taking 100,000 of each 333 million clocks. There are 333+ million clocks left over (your poem is roundoff error) for other uses.</p>
+
+<h3>JavaScript Has Lightweight Threads</h3>
+
+<p>I was working with a newbie, trying to get him pointed in the right direction with some code he had found somewhere on the web. It had this line:</p>
+
+<div class='code'><pre>
+  setTimeout( func_name, 0 );
+</pre></div>
+
+<p>That stopped me. Either the person who wrote it had no clue, or the author was an ace from whom I should be learning. That line says, "execute the 'func_name' function after zero milliseconds delay." This is subtly different from:</p>
+
+<div class='code'><pre>
+  func_name();
+</pre></div>
+
+<p>The latter begins executing <code>func_name</code> immediately. It will run to completion before the next line (the one after the call to <code>func_name</code>) is executed. You can think of it as a call to a modal function: <code>alert( "Important fact, here!" );</code>. Contrast this to writing <code>Important fact, here!</code> into some span that is on your screen. In the latter case, your program does not wait for you to click "OK". It continues. With an <code>alert()</code> your program comes to a dead halt while it waits for you to click "OK".</p>
+
+<p>Setting a <code>setTimeout()</code> for zero seconds from now says to JavaScript, "Execute this function as soon as you have a moment." In fact, you can think of it as launching a function on a new, concurrent thread.</p>
+
+<p>Today's JavaScript threads are really pseudo-concurrent. Each will run to completion without giving the others a chance. If you launch three functions on zero-milli <code>setTimeout()</code>s, chances are pretty good that the launching code will run to completion, then the launched code will run, in the order they were launched. There is, however, no law preventing some implementor from making an improvement in this situation.</p>
+
+<h3>The "Thread" API</h3>
+
+This little package steals a really excellent idea from Java: the <code>Runnable</code> interface. In Java, a class implements <code>Runnable</code> if it has a public method, <code>run()</code>. (That's right, the interface has just one method.) After that, the rest of our API could hardly be simpler. These are the basics:</p>
+
+<h4>API Basics</h4>
+
+<ul>
+	<li><code>new Thread( Runnable );</code></li>
+	<li><code>thread.start( millis );</code></li>
+	<li><code>thread.stop();</code></li>
+</ul>
+
+<p>You construct a thread by calling <code>Thread</code> with any Runnable object. An object is Runnable if it has a <code>run()</code> method. Unlike Java, we don't worry about method signatures, so your <code>run()</code> may have zero or more parameters. Zero (the only choice in Java) is often best.</p>
+
+<p>You start a <code>Thread</code> by calling its <code>start()</code> method with a numeric argument for <code>millis</code>. That will call the <code>Runnable</code>'s <code>run()</code> once every <code>millis</code> milliseconds. (More precisely, it will call <code>run()</code> and then, after <code>run()</code> has finished, it will <code>setTimeout()</code> the next <code>run()</code> after a <code>millis</code> delay.)<p>
+
+<p>The <code>stop()</code> method does just what you think. If you like details, it sets a flag that will, when the next <code>run()</code> wakes up, cancel the operation and stop the "set another run" process.</p>
+
+<h4>API Advanced Features</h4>
+
+<p>These are hardly "advanced" features, but you can safely ignore them when you are getting started.</p>
+
+<ul>
+	<li><code>thread.start();</code> Start a thread, one run only.</li>
+	<li><code>thread.start( millis, runs );</code> Start a thread for a given number of runs.</li>
+	<li><code>thread.sleep( millis );</code> Give a thread a rest.</li>
+</ul>
+
+<p>Calling the <code>start()</code> method without an argument is a) useless, or b) invaluable. It's effect is to call <code>Runnable.run()</code>, which you should do directly, if that is all you want. On the other hand, if you are debugging new code, calling <code>start()</code> for a single run may be just what the code doctors ordered.</p>
+
+<p>Adding a second argument to <code>start()</code> specifies the number of times the thread will call <code>Runnable.run()</code>. This is helpful if you don't want the thread to run forever but have no particular "stop now" condition in mind. We'll use this when the starter tells our swimmers to "Get set!".</p>
+
+<p>The <code>sleep()</code> allows you to temporarily pause a thread without the inconvenience of stopping and starting it again.</p>
+
+<h4>API Non-Features</h4>
+
+<p>There is no priority system. These "threads" should not be used for any <code>run()</code> method that might make a pig of itself, taking all the available time. Keep the <code>run()</code> methods short.</p>
+
+<p>There is no <code>yield()</code> method. In most thread systems this method allows other, possibly lower-priority threads to have a turn. After each <code>run()</code> completes its task, <code>yield()</code> is implied. Again, keep the <code>run()</code> methods short.</p>
+
+<h3>Thread Animation Basics</h3>
+
+<p>My first use for this thread API was in animation. I thought it might make animation simpler. It exceeded my expectations. Let's start with a definition: "animation" means incremental changes over time. You start here; you move or swell or recolor or whatever, just a wee bit. Then a wee bit more, repeating as needed to get to your end result. This is not rocket science. The typical JavaScript solution involves closures, which is a bit closer to rocket science than necessary.</p>
+
+<p>Here are the Thread-based steps:</p>
+
+<ol>
+	<li>Give your object a Thread property.</li>
+	<li>Write a "small change" method.</li>
+	<li>Ask the thread to run the "small change" method a few times.</li>
+</ol>
+
+<p>Yes, it's that simple. Let's take a look at one example: having our second set of "swimmers" respond when the starter says, "Get set!".</p>
+
+<h4>Giving Swimmers Threads</h4>
+
+<p>We could share a Thread among our swimmers, but these are so lightweight that it's easier to give each swimmer its own thread. This is the code:</p>
+
+<div class='code'><pre>
+var swimmers = [];
+for ( var i = 0; i < 3; i++ ) {
+    /* assign colors, then
+      assign start positions
+    */
+    <span class='hilite'>swimmers[ i ].thread =
+        new Thread( swimmers[i] );</span>
+}
+</pre></div>
+
+<p>If you're really looking critically, you noticed that we created the threads with references to the swimmers, but the swimmers don't implement <code>Runnable</code>. They don't have <code>run()</code> methods. This is a cheat. The threads will call their swimmers' <code>run()</code> methods when they start. We'll make them <code>Runnable</code> just in time.</p>
+
+<h4>Make Them Runnable</h4>
+
+<p>When you click the button that says "On Your Marks" the swimmers go to their places. The button swaps in "Get Set!" for it's new label. When you click "Get Set!" the <code>start_click()</code> function calls its <code>get_set()</code> inner function. This is our first bit of animation for these swimmers. They contract, preparing to spring forward. This is dead simple to code, as the only thing you need to change is their width. (Their feet, aka <code>style.left</code>, don't move.) Here's the <code>shrink()</code> method:</p>
+
+<div class='code'><pre>
+    function shrink() {
+        var swimmer = this;
+        swimmer.width -= 2.5;
+        swimmer.div.style.width =
+            swimmer.width + 'px';
+    }
+</pre></div>
+
+<p>First, this function assigns a name, "swimmer," to the mysterious "this." JavaScript's <code>this</code> has many issues, so it's always a good idea to give it a name. Each swimmer has a <code>width</code> property. This routine simply decrements the width and then assigns it to the <code>style.width</code> property with the appropriate 'px' suffix. (Note: it is much simpler to have a numeric property, separate from <code>style.width</code>. If you depend on the <code>style.width</code> you have to <code>parseInt()</code> to get the numeric value before you can decrement it.)</p>
+
+<p>Now, the only issue remaining is to call the <code>shrink()</code> routine several times in rapid succession and we will have an animated "Get Set!" for our swimmers. Begin by using the <code>shrink()</code> function as the <code>run()</code> method for the swimmers and then <code>start()</code> the thread:</p>
+
+<div class='code'><pre>
+    swimmer.run = shrink;
+    swimmer.thread.start( 20, 16 );
+</pre></div>
+
+<p>That bit of code will <code>shrink()</code> a swimmer 16 times, separating the <code>shrink()</code>s by 20 milliseconds each. (That's about as fast as you can run JavaScript animation. See "Animation Speed" below.)</p>
+
+<p>After the starter fires his pistol (you click "Go!") we will replace the <code>shrink()</code> routine with the <code>race()</code> routine and our tireless swimmers will begin doing laps.
+
+<h3>Advanced Thread Animation</h3>
+
+<p>There really isn't much more to animation than you've just seen. If you think you can do it, you can!</p>
+
+<p>Here are some pointers.</p>
+
+<ul>
+	<li>Can you animate two or more characteristics? Definitely. Let's say you move to a seat on the other side of the pool. The swimmers will start from your right and go left. Your <code>shrink()</code> routine will need to increment "left" as it decrements "width" to make the swimmers feet (now on your right) hold still. Try it!</li>
+	<li>Colors are not a simple matter of incrementing or decrementing. The secret is to prepare, in advance, an array of colors that smoothly morph from the starting to the ending shade. Then your <code>run()</code> routine just increments/decrements a pointer into your array to pick the next color.</li>
+	<li>Opacity can be animated, too. Begin by writing a routine that sets both CSS opacity and that silly Microsoft filter. Then animate by calling your own routine from inside the <code>run()</code> function.</li>
+	<li>See the <code>race()</code> method for handling two separate, consecutive animations. At the sound of the gun, the swimmers leap into the water (watch carefully!) and then begin swimming.</li>
+</ul>
+
+<h3>Animation Speed</h3>
+
+<p>Movies are commonly shot at 24 frames per second (42 millis per frame). This is more than enough for most animation.</p>
+
+<p>Windows basic timer ticks every 16.7 millis, which is the same as a monitor's common 60 times per second refresh rate. Updating your screen faster than this will not improve your animation. (Battery manufacturers will love you. Your viewers may not.)</p>
+
+<p>JavaScript <code>setTimeout()</code> calls may use a more accurate clock than its <code>setInterval()</code> calls. These threads use <code>setTimeout()</code>, though it may not help animations.</p>
+
+<p>Programmers who are working on animations are far more sensitive to minor bits of flicker than the overwhelming majority of viewers. Get a second opinion.</p>
+
+<h3>Summary</h3>
+
+<p>If you use the pseudo-threads in this package for small tasks, like moving "swimmers" in a pool, you can forget that they are really just simplified versions of true lightweight threads. They work. If you want something more sophisticated, like threads that can communicate with each other, I recommend that you start by sending Eich a letter. Then get coding because standards committees are slower than Himalayan glaciers.
+
+</div> <!-- columnable -->
+
+<hr>
+
+<h4>The Code</h4>
+
+<p>The Thread class has been extracted from my personal library and included on this page. It's free for adding threads to your sites and apps. Before you use it you will want to find/replace all "MRlib323" with your own namespace object name.</p>
+
+<p style='clear:both'>Feedback: MartinRinehart at gmail dot com.</p>
+
+<p style='text-align: center'># # #</p>
+
+</div> <!-- content -->
+
+    <script type='text/JavaScript'>
+        MRview323 = {};
+        MRview323.medallion_img_src =
+                '../../../../support/graphics/medallion-fe-e-js-4020e0.png';
+    </script>
+
+    <script type='text/JavaScript'
+            src='../../../../support/js/mr-lib323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../support/js/mr-data323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../support/js/mr-view323.js'> </script>
+
+<script type='text/JavaScript'>
+
+// ----------------------------------------------------------------------
+if ( MRlib323 === undefined ) { var MRlib323 = {}; }
+
+	/**A Thread Class */
+
+/** */
+MRlib323.Thread = function ( runnable ) {
+	MRlib323.Thread.init( this, runnable );
+} // end: Thread()
+
+/** */
+MRlib323.Thread.init = function ( instance_ref, runnable ) {
+
+	instance_ref.runnable		= runnable;
+	instance_ref.millis			= 0;
+	instance_ref.runs_remaining	= -1;
+	instance_ref.started		= false;
+
+} // end: Thread.init()
+
+/** Pause execution. */
+MRlib323.Thread.prototype.sleep = function ( sleep_millis ) {
+	var thread = this;
+	thread.stop();
+	setTimeout( function() { thread.start(); }, sleep_millis );
+}
+
+/** Run a thread once [or periodically]
+	[or for N runs]. */
+MRlib323.Thread.prototype.start = function ( millis, runs ) {
+
+	if ( ! this.started ) {
+		if ( runs !== undefined ) { this.runs_remaining = runs; }
+		else { this.runs_remaining = -1; }
+
+		if ( millis !== undefined ) {
+			this.millis = millis; }
+
+		this.started = true;
+	}
+
+	if ( this.runs_remaining === 0 ) {
+		this.runs_remaining === -1;
+		// -1 runs 'forever' the next time it's start()ed
+
+		this.started = false;
+		return; // stops thread()
+	}
+	this.runs_remaining -= 1;
+
+	this.runnable.run(); // do it now
+
+	if ( this.millis > 0 ) { // and, maybe, do it some more
+		var thread = this;
+		var go = function () { thread.start(); }
+		setTimeout( go, this.millis );
+	}
+
+} // end: Thread.start()
+
+/** Stop, or set # runs before stop.
+No arg? Kills thread at next call to start().
+An arg? Sets the number of remaining times to start(). */
+MRlib323.Thread.prototype.stop = function ( arg ) {
+	if ( arg === undefined ) { arg = 0; }
+	this.runs_remaining = arg;
+} // end: Thread.stop()
+
+/** */
+MRlib323.Thread.prototype.toString = function () {
+	return 'Thread{' +
+		'runnable.run=' + this.runnable.run +
+		',millis=' + this.millis +
+		',remaining=' + this.runs_remaining +
+	'}';
+}
+
+/**A DOM Access */
+
+/** Create/attach DOM elem. */
+MRlib323.create_attached_element =
+        function ( parent, type, id, style_specs, other_specs ) {
+
+    var ret = MRlib323.create_element( type, id, style_specs, other_specs );
+    parent.appendChild( ret );
+    return ret;
+
+} // end: create_attached_element()
+
+/** Create a new DOM element.
+
+Note: The style_specs properties are copied, (not style_specs itself). */
+MRlib323.create_element = function ( type, id, style_specs, other_specs ) {
+
+    var elem = document.createElement( type );
+        elem.id = id;
+        MRlib323.style_an_element( elem, style_specs );
+        for ( var prop in other_specs ) {
+            elem[ prop ] = other_specs[ prop ];
+        }
+    return elem;
+
+} // end: create_element()
+
+/** Style given styles object(s).
+Sample styles object:
+    { position:'relative', left:'100px', top: '50px', background: 'blue' } */
+MRlib323.style_an_element = function ( elem, styles ) {
+
+	if ( styles.length === undefined ) { styles = [ styles ]; }
+
+	for ( var i in styles ) {
+		var style_obj = styles[ i ];
+		for ( var prop in style_obj ) {
+
+			if ( prop === 'opacity' ) {
+				MRlib323.set_opacity( elem, style_obj.opacity );
+
+			/* } else if ( prop === 'borderRadius' ) {
+				elem.style[ 'borderRadius' ] =
+						elem.style[ 'MozBorderRadius' ] = style_obj[ prop ];
+			*/
+
+			} else if ( prop === 'cssFloat' ) {
+				elem.style[ 'cssFloat' ] = elem.style[ 'styleFloat' ] =
+						style_obj[ prop ];
+
+			} else {
+				if ( style_obj[prop] === undefined ) { throw "" +
+						"Error in 'MRlib323.style_an_element()': " +
+						"value === undefined. Styles object: " +
+						MRlib323.to_string( style_obj ); }
+				elem.style[ prop ] = style_obj[ prop ]; }
+
+		} // end: for ( prop in style_obj
+	} // end: for ( i in styles )
+
+} // end: style_an_element()
+
+// ----------------------------------------------------------------------
+
+var EDGE_LEFT = 0, EDGE_RIGHT = 520, INCREMENT=5, MILLIS=50;
+var balls = [], btns = [], objs = [], threads = [],
+	COLORS = ['red', 'white', 'blue'];
+
+for ( var i in COLORS ) {
+
+	i = +i;
+	var color = COLORS[ i ];
+	btns[ i ] = document.getElementById( 'btn_' + color );
+	balls[ i ] = document.getElementById( 'ball_' + color );
+	objs[ i ] = { number: i, ball: balls[i], btn: btns[i],
+			left: 0, direction: 1, run: move };
+	objs[ i ].thread = new MRlib323.Thread( objs[i] );
+
+} // end: for ( i in COLORS )
+
+// funny Opera bug avoided by breaking these out of the for loop
+	btns[ 0 ].onclick = function() { click( 0 ); }
+	btns[ 1 ].onclick = function() { click( 1 ); }
+	btns[ 2 ].onclick = function() { click( 2 ); }
+
+function click( btn_num ) {
+
+	var btn = btns[ btn_num ];
+	if ( btn.innerHTML === 'Stop!' ) {
+		objs[ btn_num ].thread.stop();
+		btn.innerHTML = 'Go!';
+	} else { // button says "Go!"
+		objs[ btn_num ].thread.start( MILLIS - (2 * btn_num) );
+		btn.innerHTML = 'Stop!';
+	}
+} // end: click()
+
+function move() { // 'this' is, for example, 'objs[0]'
+
+	this.left += INCREMENT * this.direction;
+	if ( this.left > EDGE_RIGHT ) {
+		this.left = EDGE_RIGHT;
+		this.direction = -1;
+	} else if ( this.left < EDGE_LEFT ) {
+		this.left = EDGE_LEFT;
+		this.direction = 1;
+	}
+	this.ball.style.left = this.left + 'px';
+}
+
+// -------------------------------------------------------
+
+var SWIMMER_WIDTH = 80, MIN_SWIMMER_WIDTH = 40;
+
+function start_click() {
+
+	var btn = this;
+	if ( btn.innerHTML === 'On your marks!' ) { on_your_marks(); return; }
+	if ( btn.innerHTML === 'Get set!' ) { get_set(); return; }
+	if ( btn.innerHTML === 'Go!' ) { go(); return; }
+	if ( btn.innerHTML === 'Stop' ) { stop(); return; }
+	if ( btn.innerHTML === '&nbsp;' ) {
+		btn.innerHTML = 'On your marks!';
+	}
+
+	function get_set() {
+
+		for ( var i = 0; i < 3; i++ ) {
+
+			var swimmer = swimmers[ i ];
+				// swimmer.width = MIN_SWIMMER_WIDTH;
+				// swimmer.div.style.width = MIN_SWIMMER_WIDTH + 'px';
+				swimmer.width = SWIMMER_WIDTH;
+				swimmer.run = shrink;
+				swimmer.thread.start( 20, 16 );
+				swimmer.direction = 1;
+				swimmer.advantage = 0; // start all even
+
+		} // end: for ( i = 0, 1, 2 )
+
+		btn.innerHTML = 'Go!';
+
+		function shrink() {
+			var swimmer = this;
+			swimmer.width -= 2.5;
+			swimmer.div.style.width = swimmer.width + 'px';
+		}
+
+	} // end: get_set()
+
+	function go() {
+
+		for ( var i = 0; i < 3; i++ ) {
+			swimmers[ i ].run = race;
+			swimmers[ i ].thread.start( MILLIS );
+		}
+		btn.innerHTML = 'Stop';
+	}
+
+	function on_your_marks() {
+
+		for ( var i = 0; i < 3; i++ ) {
+			swimmers[ i ].thread.stop();
+			var swimmer = swimmers[ i ];
+			var style = swimmer.div.style;
+
+			swimmer.left = -30;
+			style.left = swimmer.left + 'px';
+			style.top  = 20 + ( i * 70 ) + 'px';
+		}
+
+		btn.innerHTML = 'Get set!';
+
+	} // end: on_your_marks()
+
+	function stop() {
+
+		for ( var i = 0; i < 3; i++ ) {
+			swimmers[ i ].thread.stop();
+			var swimmer = swimmers[ i ];
+			var style = swimmer.div.style;
+			style.borderRadius = '0 50px 50px 0 / 0 20px 20px 0';
+			style.top = 40 * i + 10 + 'px';
+			style.left = -( 5 * (i + 30) ) + 'px';
+		}
+
+		btn.innerHTML = 'On your marks!';
+
+	} // end: stop()
+
+} // end: start_click()
+
+function Swimmer( pool, color, millis ) {
+	Swimmer.init( this, pool, color, millis );
+}
+
+Swimmer.init = function( instance_ref, pool, color, millis ) {
+	instance_ref.pool		= pool;
+	instance_ref.color		= color;
+	instance_ref.time		= millis;
+
+	instance_ref.div = MRlib323.create_attached_element( pool, 'div', '',
+			[SWIMMER_STYLES, {background: color}] );
+
+} // end: Swimmer.init();
+
+Swimmer.prototype.toString = function () { return 'Swimmer{}'; }
+
+var pool2 = document.getElementById( 'pool2' );
+
+function race() { // 'this' is a swimmer
+
+	var EDGE_LEFT = 0, EDGE_RIGHT = 535;
+
+	if ( this.width < SWIMMER_WIDTH ) {
+		this.width += 5;
+		this.div.style.width = this.width + 'px';
+		return;
+	}
+
+	var distance = INCREMENT + this.advantage;
+	this.left += distance * this.direction;
+	if ( this.left > EDGE_RIGHT ) {
+		this.advantage = Math.random();
+		this.left = EDGE_RIGHT;
+		this.div.style.borderRadius = '50px 0 0 50px / 20px 0 0 20px';
+		this.direction = -1;
+	} else if ( this.left < EDGE_LEFT ) {
+		this.left = EDGE_LEFT;
+		this.div.style.borderRadius = '0 50px 50px 0 / 0 20px 20px 0';
+		this.direction = 1;
+	}
+	this.div.style.left = this.left + 'px';
+
+} // end: race()
+
+var starter = document.getElementById( 'starter' );
+	starter.innerHTML = '&nbsp;'; // initial click goes to 'On your marks!'
+	starter.onclick = start_click;
+
+var SWIMMER_STYLES = {
+	border: '5px double gray',
+	borderRadius: '0 50px 50px 0 / 0 20px 20px 0',
+	height: '40px',
+	position: 'absolute',
+	width:		'80px'
+};
+
+var swimmers = [];
+for ( var i = 0; i < 3; i++ ) {
+	swimmers[ i ] = new Swimmer( pool2, COLORS[i], 30 - i );
+	var style = swimmers[ i ].div.style;
+		style.top = 40 * i + 10 + 'px';
+		style.left = -( 5 * (i + 30) ) + 'px';
+
+	swimmers[ i ].thread = new MRlib323.Thread( swimmers[i] );
+}
+
+starter.onclick();
+
+</script>
+
+</body>
+
+</html>
+
+<!-- end of frontend-engineering\sort-functions.html -->
