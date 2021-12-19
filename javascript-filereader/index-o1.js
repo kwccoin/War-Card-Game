@@ -1,9 +1,9 @@
 import {sc, cl, debug} from "./logging.js"
 // notsure include "logging.js"
 
-pageLoaded();
+// pageLoaded();
 
-function pageLoaded() {
+// function pageLoaded() {
 
 // chp 2
 
@@ -27,9 +27,13 @@ function Dog(name, breed) {
 
 var bellaM1= new Dog("Bella","Mixed"); 
 
+Dog.diet = "x"
+Dog.prototype.diet = "y"
+cl(ballaM1.diet)
+
 cl(bellaM1);
 
-var dog = {
+// var dog = {
 
 
 
@@ -94,4 +98,4 @@ console.log("3-----------------");
 
 */
 
-}
+// }
