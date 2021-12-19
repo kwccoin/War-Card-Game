@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<!-- fe-e/knowits/op/lessons/chap-2.html -->
+
+<html><head><title>JIOP Lesson 2</title>
+
+</head><body>
+
+	<script>
+
+"use strict";
+
+var ns = {}; // rename ns (namespace)!!!
+
+ns.Box = function (parent, id, pos_size, color) {
+	var new_box = this;
+
+	ns.Box.init(new_box, parent, id, pos_size, color);
+}
+
+ns.Box.init = function(new_box, parent, id, pos_size, color) {
+
+	new_box.parent = parent;
+	new_box.id = id;
+	new_box.pos_size = pos_size;
+	new_box.color = color;
+
+	new_box.delem = document.createElement('div');
+	new_box.delem.id = id;
+
+	var style = new_box.delem.style;
+		style.backgroundColor = color;
+		style.height = pos_size[3] + 'px';
+		style.left = pos_size[0] + 'px';
+		style.position = 'absolute';
+
+		style.top = pos_size[1] + 'px';
+		style.width = pos_size[2] + 'px';
+
+	parent.appendChild(new_box.delem);
+
+} // end: Box.init()
+
+ns.Box.prototype.toString = function () {
+	return 'Box{' +
+		'id=' + this.id +
+		',pos_size=' + this.pos_size +
+		',color=' + this.color +
+	'}'
+}
+
+// --------------------------- mainline ---------------------------
+
+var box = new ns.Box(document.body, 'box', [100,100, 300,100], '#c0e0ff');
+	box.delem.style.textAlign = 'center';
+	box.delem.style.fontSize = '24pt';
+	box.delem.style.padding = '10px';
+
+	box.delem.innerHTML = 'Lesson 2, Box object!';
+
+// alert( box );
+
+</script></body></html>
+
+<!-- end lessons/chap-2.html -->

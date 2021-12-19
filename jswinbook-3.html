@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<!-- fe-e/knowits/op/lessons/op-tut-sample-3g.html -->
+
+<html><head><title>JIOP Lesson 3g</title>
+
+</head><body>
+
+	<script>
+
+"use strict";
+
+var ns = {}; // rename ns (namespace)!!!
+
+ns.o2s = function(obj) {
+	var arr = [];
+
+	for (var name in obj) {
+		arr.push(name + ':' + obj[name]);
+	}
+
+	return '{' + arr.join(',') + '}';
+} // end: o2s()
+
+ns.sum = function(obj1, obj2) {
+	var ret = {};
+	for (var name in obj1) { ret[name] = obj1[name]; }
+	for (name in obj2) { ret[name] = obj2[name]; }
+
+	return ret;
+}
+
+ns.Box = function (parent, id, pos_size, styles) {
+    var new_box = this;
+
+    ns.Box.init(new_box, parent, id, pos_size, styles);
+}
+
+ns.Box.init = function(new_box, parent, id, pos_size, styles) {
+
+	new_box.parent = parent;
+	new_box.id = id;
+	new_box.pos_size = pos_size;
+	new_box.styles = styles;
+
+	new_box.delem = document.createElement('div');
+	new_box.delem.id = id;
+
+	var box_styles = get_ps_styles(new_box);
+		box_styles.position = 'absolute';
+		box_styles = ns.sum(box_styles, styles);
+
+	for (var name in box_styles) {
+		new_box.delem.style[name] = box_styles[name];
+	}
+
+	parent.appendChild(new_box.delem);
+
+	function get_ps_styles(new_box) {
+		var ps = new_box.pos_size,
+			ret = {};
+
+		ret.left	= ps[0] + 'px';
+		ret.top		= ps[1] + 'px';
+		ret.width	= ps[2] + 'px';
+		ret.height	= ps[3] + 'px';
+
+		return ret;
+	}
+
+} // end: Box.init()
+
+ns.Box.prototype.toString = function () {
+    return 'Box{' +
+		'parent=' + this.parent +
+		'id=' + this.id +
+		'pos_size=' + this.pos_size +
+		',styles=' + ns.o2s(this.styles) +
+    '}'
+}
+
+// --------------------------- mainline ---------------------------
+
+var box = new ns.Box(document.body, 'box', [100,100, 300,100],
+	{backgroundColor: '#c0e0ff',
+	fontSize: '24pt',
+	padding: '10px',
+	textAlign: 'center'} );
+
+	box.delem.innerHTML = 'Lesson 3, Box object!';
+
+	alert(box);
+
+</script></body></html>
+
+<!-- end op-tut-sample-3g.html -->

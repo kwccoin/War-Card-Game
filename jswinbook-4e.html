@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<!-- fe-e/knowits/op/lessons/op-tut-sample-4e.html -->
+
+<html><head><title>JIOP Lesson 4e</title>
+
+</head><body>
+
+	<script>
+
+"use strict";
+
+var ns = {}; // rename ns (namespace)!!!
+
+ns.DEFAULTS = {
+	borders: {
+		bcolor: 'red',
+		bstyle: 'double',
+		bwidth: 5
+	}
+}
+
+ns.o2s = function(obj) {
+	var arr = [];
+
+	for (var name in obj) {
+		arr.push(name + ':' + obj[name]);
+	}
+
+	return '{' + arr.join(',') + '}';
+} // end: o2s()
+
+ns.sum = function(obj1, obj2) {
+	var ret = {};
+	for (var name in obj1) { ret[name] = obj1[name]; }
+	for (name in obj2) { ret[name] = obj2[name]; }
+
+	return ret;
+}
+
+ns.Borders = function (bcolor, bstyle, bwidth) {
+	var new_borders = this;
+
+	ns.Borders.init(new_borders, bcolor, bstyle, bwidth);
+}
+
+ns.Borders.init = function (new_borders, bcolor, bstyle, bwidth) {
+
+	new_borders.bcolor = bcolor;
+	new_borders.bstyle = bstyle;
+	new_borders.bwidth = bwidth;
+
+} // end: Borders.init()
+
+ns.Borders.prototype.get_styles = function () {
+	var border = this;
+
+	return {borderColor: border.bcolor, borderStyle: border.bstyle,
+			borderWidth: border.bwidth + 'px'};
+}
+
+ns.Borders.prototype.toString = function () {
+	return 'Borders{' +
+			'get_styles()=' + ns.o2s( this.get_styles() ) +
+	'}';
+}
+
+ns.Box = function (parent, id, pos_size, styles) {
+    var new_box = this;
+
+    ns.Box.init(new_box, parent, id, pos_size, styles);
+}
+
+ns.Box.init = function(new_box, parent, id, pos_size, styles) {
+
+	new_box.parent = parent;
+	new_box.id = id;
+	new_box.pos_size = pos_size;
+	new_box.styles = styles;
+
+	new_box.borders = new ns.Borders(
+			ns.DEFAULTS.borders.bcolor,
+			ns.DEFAULTS.borders.bstyle,
+			ns.DEFAULTS.borders.bwidth
+		);
+
+	new_box.delem = document.createElement('div');
+	new_box.delem.id = id;
+
+	new_box.set_styles();
+
+	parent.appendChild(new_box.delem);
+
+} // end: Box.init()
+
+ns.Box.prototype.set_borders = function (bcolor, bstyle, bwidth) {
+	var box = this;
+
+	box.borders = new ns.Borders(bcolor, bstyle, bwidth);
+	box.set_styles();
+
+} // end: Box.set_borders()
+
+ns.Box.prototype.set_styles = function () {
+	var box = this;
+
+	var box_styles = get_ps_styles(box);
+		box_styles.position = 'absolute';
+		box_styles = ns.sum( box_styles, box.borders.get_styles() );
+		box_styles = ns.sum(box_styles, box.styles);
+
+	for (var name in box_styles) {
+		box.delem.style[name] = box_styles[name];
+	}
+
+	function get_ps_styles(new_box) {
+		var ps = new_box.pos_size,
+			ret = {};
+
+		ret.left	= ps[0] + 'px';
+		ret.top		= ps[1] + 'px';
+		ret.width	= ps[2] + 'px';
+		ret.height	= ps[3] + 'px';
+
+		return ret;
+	}
+
+} // end: Box.set_styles()
+
+ns.Box.prototype.toString = function () {
+    return 'Box{' +
+		'parent=' + this.parent +
+		',id=' + this.id +
+		',pos_size=' + this.pos_size +
+		',styles=' + ns.o2s(this.styles) +
+    '}'
+}
+
+// --------------------------- mainline ---------------------------
+
+var box = new ns.Box(document.body, 'box', [100,100, 300,100],
+	{backgroundColor: '#c0e0ff',
+	fontSize: '24pt',
+	padding: '10px',
+	textAlign: 'center'} );
+
+	box.delem.innerHTML = 'Lesson 4, Box object<br>with Borders!';
+	box.set_borders('#a0a0ff', 'ridge', 5);
+
+</script></body></html>
+
+<!-- end op-tut-sample-4e.html -->
