@@ -1,4 +1,4 @@
-export let debug = false; // true; //  false;
+export let debug = true; //  false;
 
 export function sc(cards,msg,individual=false){
   if (individual || debug) {
