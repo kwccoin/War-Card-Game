@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<!-- fe-e\books\op\op-source.html - cover page, online knowit, JavaScript Windows source code, classical inheritance and object programming -->
+<!-- copyright 2013, Martin Rinehart -->
+
+<html>
+
+<head>
+
+    <title>JSWindows Source Code</title>
+
+    <meta name="keywords" content="JavaScript, JSW JavaScript, JavaScript JSWindows, online source code for JSWindows, JSWindows source">
+    <meta name="description" content="cover page for JSWindows user guide">
+    <meta name="author" content="Martin Rinehart">
+    <meta name="robots" content="all">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel='stylesheet' type='text/css' href='../../../../../support/css/mr.css'>
+
+    <link
+        rel='shortcut icon'
+        href='http://www.MartinRinehart.com/favicon.ico'
+    >
+
+    <style type='text/CSS'>
+    </style>
+
+</head>
+
+<body>
+
+<div id='content'>
+
+<h3> <i>JavaScript Inheritance and Object Programming</i></h3>
+<h1>Source Code (Showing Class-Based Inheritance and Object Programming)</h1>
+<p id='copy'> &copy; 21 May, 2013, Martin Rinehart</p>
+<br clear='left'>
+
+<p>These pages (this one and the four <code>.js</code> pages) provide the source code for the <i>JSWindows</i> system. The <code>.js</code> files are:</p>
+
+<ol>
+	<li><code><b>jsw2-code.js</b></code>&mdash;Library functions and utility classes.</li>
+	<li><code><b>jsw2-data.js</b></code>&mdash;Constants (skins) for the designers.</li>
+	<li><code><b>jsw2-wobjs.js</b></code>&mdash;<code>Wobj</code> class and classes inheriting from <code>Wobj</code>.</li>
+	<li><code><b>jsw2-capabilities.js</b></code>&mdash;Capabilities that the <code>Wobj</code> classes can implement.</li>
+</ol>
+
+<p>To try these yourself, copy from the page (bottom menu, top of this page) and paste into your code editor. Save to a folder you choose for your project.</p>
+<br><br>
+
+<div id="next_site_map" style="display: inline-block; position: relative">
+
+<h2 style="position: relative; top: -25px">
+<span style="font-size: 14pt;">
+    <button id="show_site_map_button" style= "
+            border-style: outset;
+            border-width: 3px;
+            font-size: 10pt;
+            line-height: 14pt;
+            height: 30px;
+            padding: 3px;
+            position: relative;
+            top: -3px;
+            width: 60px;
+    ">
+        Show    </button> Site Map, Page Children
+</span></h2>
+
+<div id="site_map" style="
+    background-color: #f0f0ff;
+    border: #a0a0ff double 5px;
+    border-radius: 0 20px 20px 0;
+    display: none;
+    margin-left: 20px;
+    padding: 10px;
+    position: relative;
+">
+
+<span style="margin-left: 0px"> <a href="op-source.html"
+	 title="Source code for the JSWindows system (classical inheritance and object programming)."> Source Code  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="op-source-code.html"
+	 title="<code>jsw2-code.js</code> source code for the JSWindows system."> code  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="op-source-data.html"
+	 title="<code>jsw2-data.js</code> source code for the JSWindows(ci) system."> data  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="op-source-wobjs.html"
+	 title="<code>jsw2-wobjs.js</code> source code for the JSWindows(op) system."> wobjs  </a> </span> <br>
+<span style="margin-left: 50px"> <a href="op-source-capabilities.html"
+	 title="<code>jsw2-capabilities.js</code> source code for the JSWindows(op) system."> capabilities  </a> </span> <br>
+
+</div> <!-- site_map -->
+
+</div> <!-- next_site_map -->
+
+<script type="text/javascript">
+
+var site_map_button =
+        document.getElementById( "show_site_map_button" );
+    site_map_button.onclick = show_hide_site_map;
+
+function show_hide_site_map() {
+    var button=this;
+    var map_div = document.getElementById( "site_map" );
+
+    if ( map_div.style.display === "none" ) {
+        map_div.style.display = "block";
+        button.innerHTML = "Hide";
+    } else {
+        map_div.style.display = "none";
+        button.innerHTML = "Show";
+    }
+} // end: show_hide_site_map()
+
+</script>
+
+<br>
+<p>Feedback: Martin Rinehart at gmail dot com.</p>
+
+<p style='text-align: center;'># # #</p>
+
+</div> <!-- content -->
+
+    <script type='text/JavaScript'>
+        var MRview323 = {};
+        MRview323.medallion_img_src = '../../graphics/medallion-op-b090a0.png';
+        MRview323.COLOR_background = '#fdf4f8';
+    </script>
+
+    <script type='text/JavaScript'
+            src='../../../../../support/js/mr-lib323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../../support/js/mr-data323.js'> </script>
+    <script type='text/JavaScript'
+            src='../../../../../support/js/mr-view323.js'> </script>
+
+    <script type='text/JavaScript'>
+
+    </script>
+
+</body></html>
+
+<!-- end of fe-e\books\op\op-source.html -->
