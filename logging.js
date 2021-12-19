@@ -1,3 +1,6 @@
+// to use
+// import {sc, cl, debug} from "./logging.js"
+
 export let debug = true; //  false;
 
 export function sc(cards,msg,individual=false){
