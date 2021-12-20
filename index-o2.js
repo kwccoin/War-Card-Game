@@ -27,6 +27,16 @@ function Dog(name, breed) {
 
 var bellaM1 = new Dog("BellaM1","Mixed"); 
 
+cl("__proto__<-----")
+cl(Dog.__proto__) // undefined 
+cl(Dog.__proto__.constructor)// undefined
+cl(bellaM1.__proto__) // empty object {}
+cl(bellaM1.__proto__.constructor) // undefined
+cl(bellaM1.__proto__.name) // undefined
+Object.getPrototypeOf(Dog) // still undefined
+Object.getPrototypeOf(bellaM1) // still undefined
+
+cl("Dog details ")
 Dog.diet = "x"
 cl(bellaM1.diet) // undefined 
 Dog.prototype.diet = "y" // this cl 
@@ -47,7 +57,8 @@ var bellaM2 = Object.create(lassie)
 cl("just obj created")
 cl(bellaM2) // {}
 cl(bellaM2.name) // strange 
-cl("assign a name")
+
+cl("assign a name and why change color ..")
 bellaM2.name = "bellaM2"
 cl(bellaM2) // {}
 cl(bellaM2.name) // strange 
