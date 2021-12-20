@@ -13,6 +13,230 @@ import {o2s, sc, cl, debug} from "./logging.js"
 
 console.log("oo chapter 2")
 
+
+class Point {
+  constructor(x, y) {
+    this._x = x;
+    this._y = y;
+  }
+ 
+  getX() {
+    return this._x;
+  }
+ 
+  getY() {
+    return this._y;
+  }
+}
+ 
+let p1 = new Point(1, 2);
+let p2 = new Point(3, 4);
+ 
+// Can access `getX`, and `getY` from
+// both instances (they are passed as `this`).
+ 
+console.log(
+  p1.getX(), // 1
+  p2.getX(), // 3
+);
+
+// Generic Movable interface (mixin).
+
+let Movable = {
+ 
+  /**
+   * This function is generic, and works with any
+   * object, which provides `_x`, and `_y` properties,
+   * regardless of the class of this object.
+   */
+  move(x, y) {
+    this._x = x;
+    this._y = y;
+  },
+};
+ 
+let p3 = new Point(11, 12);
+
+console.log(
+  p3.getX(), // 1
+  p3.getY(), // 3
+);
+ 
+// Make `p1` movable.
+Object.assign(p3, Movable);
+ 
+// Can access `move` method.
+p3.move(100, 200);
+
+console.log(
+  p3.getX(), // 1
+  p3.getY(), // 3
+);
+
+// Enqueue a new promise on the PromiseJobs queue.
+// last result
+new Promise(resolve => setTimeout(() => resolve(3310), 0))
+  .then(value => console.log(value));
+ 
+// This log is executed earlier, since it's still a
+// running context, and job cannot start executing first
+console.log(2020); // no 10 in wc 
+ 
+// Output: 20, 10
+
+
+  let count = 0; // external upt possibly if use ext capture
+
+function createCounter() {
+
+   let count = 190;
+  return {
+    increment() { count++; return count; },
+    decrement() { count--; return count; },
+  };
+}
+ 
+let counter = createCounter();
+ 
+console.log(
+  counter.increment(), // 1
+  counter.decrement(), // 0
+  counter.increment(), // 1
+);
+
+count = 10;
+
+console.log(
+  counter.increment(), // 1
+  counter.decrement(), // 0
+  counter.increment(), // 1
+);
+
+function foo33() {
+  let fx = 10;
+   
+  // Closure, capturing environment of `foo`.
+  function bar37() {
+    cl(fx)
+    return fx ;
+  }
+ 
+  // Upward funarg.
+  // return 20; 
+  return bar37;
+}
+ 
+let fx = 20;
+ 
+// Call to `foo` returns `bar` closure.
+let bar50 = foo33(); // wc see null here 
+
+foo33()
+
+cl(foo33)
+cl(foo33())
+cl(bar50)
+ 
+// bar31(); // 10, not 20!
+
+cl("xx3")
+
+let xx3 = 10; // if var ckash wc just sikence
+ 
+function foo() {
+  console.log(xx3);
+}
+ 
+function bar(funArg) {
+  let xx3 = 20;
+  funArg(); // 10, not 20!
+}
+ 
+// Pass `foo` as an argument to `bar`.
+bar(foo);
+
+// Legacy variables using `var`.
+var x2= 10;
+ 
+// Modern variables using `let`.
+let y2 = 20;
+ 
+// Both are added to the environment record:
+console.log(
+  x2, // 10
+  y2, // 20
+);
+ 
+// But only `x` is added to the "binding object".
+// The binding object of the global environment
+// is the global object, and equals to `this`:
+ 
+console.log(
+  // this.x2, // 10 undefibed in working copy
+  // this.y, // undefined!
+);
+ 
+// Binding object can store a name which is not
+// added to the environment record, since it's
+// not a valid identifier:
+ 
+// error // this['not valid ID'] = 30;
+ 
+console.log(
+  // this['not valid ID'], // 30
+);
+
+
+let x61 = 10;
+let y62 = 20;
+ 
+function foo(z) {
+  let x61 = 100;
+  return x61 + 
+  // ?? strange // y62 + 
+  z;
+}
+
+// y62=10000
+cl(foo(30)); // not 150 ??? depend on y
+// y=20000
+cl(foo(40)); // see above not sure as run 2 times result diff
+
+
+function recursive(flag) {
+
+  cl(flag);
+ 
+  // Exit condition.
+  if (flag === 2) {
+    return;
+  }
+ 
+  // Call recursively.
+  recursive(++flag);
+}
+ 
+// Go.
+recursive(0);
+
+function *gen() {
+  yield 1;
+  return 2;
+}
+ 
+let g = gen();
+ 
+console.log(
+  g.next().value, // 1
+  g.next().value, // 2
+  
+    g.next().value, // undefined
+      g.next().value, // undefined
+        g.next().value, // undefined
+  
+);
+
+
 var sum = function (old_object, new_object) {
     var ret = {};
     for (var prop in old_object) {
@@ -80,7 +304,19 @@ console.log(
   z2.getNumber(), // 26
 );
 
+/*
 
+a2 is not a function and has no cobstructor ?
+error here 
+
+let aa2 = new a2; 
+ 
+console.log(
+  a2.getNumber(), // 1
+  aa2.getNumber(), // 2
+);
+
+*/
 
 class Letter3 {
   constructor(number) {
