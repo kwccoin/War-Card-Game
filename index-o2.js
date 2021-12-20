@@ -13,6 +13,79 @@ import {o2s, sc, cl, debug} from "./logging.js"
 
 console.log("oo chapter 2")
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+
+let obj = {}
+
+obj[Symbol('a')] = 'a'
+obj[Symbol.for('b')] = 'b'
+obj['c'] = 'c'
+obj.d = 'd'
+
+for (let i in obj) {
+   console.log(i)  // logs "c" and "d"
+}
+
+// javascript core 
+
+var xb = 10;
+ 
+let foob = {
+  xb: 20,
+ 
+  // Dynamic `this`.
+  bar() {
+    return this.xb;
+  },
+ 
+  // Lexical `this`.
+  // err wc // baz: () => this.xb,
+ 
+  qux() {
+    // Lexical this within the invocation.
+    let arrow = () => this.xb;
+ 
+    return arrow();
+  },
+};
+ 
+console.log(
+  foob.bar(), // 20, from `foo`
+  // foob.baz(), // 10, from global
+  foob.qux(), // 20, from `foo` and arrow
+);
+
+
+
+
+function fooa() {
+  return this;
+}
+ 
+let bara = {
+  foo,
+ 
+  baz() {
+    return this;
+  },
+};
+ 
+// `foo`
+console.log(
+  fooa(),       // global or undefined
+ 
+  bara.foo(),   // bar
+  (bara.foo)(), // bar
+ 
+  (bara.foo = bara.foo)(), // global
+);
+ 
+// `bar.baz`
+console.log(bara.baz()); // bar
+ 
+let savedBaz = bara.baz;
+console.log(savedBaz()); // global
+
 
 class Point {
   constructor(x, y) {
