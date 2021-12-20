@@ -5,6 +5,10 @@ import {o2s, sc, cl, debug} from "./logging.js"
 
 // function pageLoaded() {
 
+// if not worjing error behind just nothing happen !
+
+// use cl() help to deal with error tyoe if undefine
+
 // chp 2
 
 console.log("oo chapter 2")
@@ -33,8 +37,72 @@ cl(Dog.__proto__.constructor)// undefined
 cl(bellaM1.__proto__) // empty object {}
 cl(bellaM1.__proto__.constructor) // undefined
 cl(bellaM1.__proto__.name) // undefined
-Object.getPrototypeOf(Dog) // still undefined
-Object.getPrototypeOf(bellaM1) // still undefined
+cl(Object.getPrototypeOf(Dog) )// still undefined
+cl(Object.getPrototypeOf(bellaM1) )// still undefined
+
+
+cl("http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/")
+
+// Generic prototype for all letters.
+let letter = {
+  getNumber() {
+    return this.number;
+  }
+};
+ 
+let a = {number:  1, __proto__: letter};
+let b = {number: 2, __proto__: letter};
+// ...
+let z = {number: 26, __proto__: letter};
+ 
+console.log(
+  a.getNumber(), // 1
+  b.getNumber(), // 2
+  z.getNumber(), // 26
+);
+
+function Letter2(number) {
+  this.number = number;
+}
+ 
+Letter2.prototype.getNumber = function() {
+  return this.number;
+};
+ 
+let a2 = new Letter2(21);
+let b2 = new Letter2(22);
+// ...
+let z2 = new Letter2(226);
+ 
+console.log(
+  a2.getNumber(), // 1
+  b2.getNumber(), // 2
+  z2.getNumber(), // 26
+);
+
+
+
+class Letter3 {
+  constructor(number) {
+    this.number = number;
+  }
+ 
+  getNumber() {
+    return this.number;
+  }
+}
+ 
+let a3 = new Letter3(31);
+let b3 = new Letter3(32);
+// ...
+let z3 = new Letter3(326);
+ 
+console.log(
+  a3.getNumber(), // 1
+  b3.getNumber(), // 2
+  z3.getNumber(), // 26
+);
+
 
 cl("Dog details ")
 Dog.diet = "x"
