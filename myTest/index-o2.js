@@ -11,7 +11,7 @@ import {o2s, sc, cl, debug} from "./logging.js"
 
 // chp 2
 
-console.log("oo chapter 2")
+console.log("oo chapter 2 ... ")
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 
