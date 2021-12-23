@@ -3,13 +3,12 @@
 var debug = true
 
 
-// export
 function cl(msg,individual=false){
   if (individual || debug) {
     console.log(msg)
   }
 }
 
-cl("sarah:   " + (8 + 13 + 19))
-cl("dennis:  " + (8 + 9))
-cl("dominic: " + (10 + 10))
+cl("sarah" + (8 + 13 + 17))
+cl("dennis" + (8 + 9 + 12))
+cl("dominic"+ (10 + 11 + 0))
