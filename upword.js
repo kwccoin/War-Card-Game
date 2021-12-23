@@ -9,6 +9,7 @@ function cl(msg,individual=false){
   }
 }
 
-cl("sarah" + (8 + 13 + 17))
-cl("dennis" + (8 + 9 + 12))
-cl("dominic"+ (10 + 11 + 0))
+cl("sarah: " + (8 + 13 + 17))
+cl("dennis: " + (8 + 9 + 12))
+cl("dominic: "+ (10 + 11 + 19))
+
