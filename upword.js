@@ -9,9 +9,9 @@ function cl(msg,individual=false){
   }
 }
 
-cl("sarah: " + (8 + 13 + 17 +8))
+cl("sarah: " + (8 + 13 + 17 +8 +8 ))
 
-cl("dennis: " + (8 + 9 + 12 + 15))
+cl("dennis: " + (8 + 9 + 12 + 15 +21))
 
-cl("dominic: "+ (10 + 11 + 19+ 22))
+cl("dominic: "+ (10 + 11 + 19+ 22 + 16))
 
