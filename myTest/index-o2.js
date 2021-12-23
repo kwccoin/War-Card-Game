@@ -11,9 +11,11 @@ import {o2s, sc, cl, debug} from "./logging.js"
 
 // chp 2
 
-console.log("oo chapter 2")
+console.log("oo chapter 2 ... ")
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+
+cl("Mozilla Symbols")
 
 let obj = {}
 
@@ -26,7 +28,12 @@ for (let i in obj) {
    console.log(i)  // logs "c" and "d"
 }
 
-// javascript core 
+cl("javascript core"); 
+cl("http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/")
+cl()
+
+
+cl("arrow functions this is lexical !!! in general this is dynamic")
 
 var xb = 10;
  
@@ -39,7 +46,7 @@ let foob = {
   },
  
   // Lexical `this`.
-  // err wc // baz: () => this.xb,
+  // err wc and mac safari and chrome // baz: () => this.xb,
  
   qux() {
     // Lexical this within the invocation.
@@ -55,7 +62,7 @@ console.log(
   foob.qux(), // 20, from `foo` and arrow
 );
 
-
+cl("complicated dynamic context of this")
 
 
 function fooa() {
@@ -63,7 +70,7 @@ function fooa() {
 }
  
 let bara = {
-  foo,
+  fooa,
  
   baz() {
     return this;
@@ -72,12 +79,13 @@ let bara = {
  
 // `foo`
 console.log(
+  // 
   fooa(),       // global or undefined
  
-  bara.foo(),   // bar
-  (bara.foo)(), // bar
+  bara.fooa(),   // bar
+  (bara.fooa)(), // bar
  
-  (bara.foo = bara.foo)(), // global
+  (bara.fooa = bara.fooa)(), // global
 );
  
 // `bar.baz`
@@ -86,6 +94,7 @@ console.log(bara.baz()); // bar
 let savedBaz = bara.baz;
 console.log(savedBaz()); // global
 
+cl("dynamic")
 
 class Point {
   constructor(x, y) {
@@ -112,6 +121,8 @@ console.log(
   p1.getX(), // 1
   p2.getX(), // 3
 );
+
+cl("generic methods, ??? lisp like???")
 
 // Generic Movable interface (mixin).
 
@@ -146,6 +157,8 @@ console.log(
   p3.getY(), // 3
 );
 
+cl("Enqueue a new promise on the PromiseJobs queue.")
+
 // Enqueue a new promise on the PromiseJobs queue.
 // last result
 new Promise(resolve => setTimeout(() => resolve(3310), 0))
@@ -157,6 +170,7 @@ console.log(2020); // no 10 in wc
  
 // Output: 20, 10
 
+cl("external upt possibly if use ext capture")
 
   let count = 0; // external upt possibly if use ext capture
 
@@ -184,6 +198,8 @@ console.log(
   counter.decrement(), // 0
   counter.increment(), // 1
 );
+
+cl("funArg has a downward and an upward assignment design issues to be fixed (static and dynamic)")
 
 function foo33() {
   let fx = 10;
@@ -263,7 +279,7 @@ console.log(
 let x61 = 10;
 let y62 = 20;
  
-function foo(z) {
+function fooNN(z) {
   let x61 = 100;
   return x61 + 
   // ?? strange // y62 + 
@@ -271,10 +287,11 @@ function foo(z) {
 }
 
 // y62=10000
-cl(foo(30)); // not 150 ??? depend on y
+cl(fooNN(30)); // not 150 ??? depend on y
 // y=20000
-cl(foo(40)); // see above not sure as run 2 times result diff
+cl(fooNN(40)); // see above not sure as run 2 times result diff
 
+cl("recursive")
 
 function recursive(flag) {
 
@@ -291,6 +308,8 @@ function recursive(flag) {
  
 // Go.
 recursive(0);
+
+cl("generative function")
 
 function *gen() {
   yield 1;
@@ -309,6 +328,8 @@ console.log(
   
 );
 
+cl("Javascript Object Method book")
+cl("object sum way from coping prop")
 
 var sum = function (old_object, new_object) {
     var ret = {};
@@ -337,7 +358,7 @@ cl(bellaM1.__proto__.name) // undefined
 cl(Object.getPrototypeOf(Dog) )// still undefined
 cl(Object.getPrototypeOf(bellaM1) )// still undefined
 
-
+cl("move to the more general disucssion here")
 cl("http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/")
 
 // Generic prototype for all letters.
